@@ -304,7 +304,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Scraping a real website</h1>
-        <p>Last updated on 2026-08-26 |
+        <p>Last updated on 2026-09-07 |
 
         <a href="https://github.com/carpentries-incubator/web-scraping-python/edit/main/episodes/a-real-website.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -365,6 +365,7 @@ and past workshops directly.</p>
 website. Now that we’re moving into a more realistic and complex
 scenario, we’ll add another tool to our toolbox: the
 <code>requests</code> package.</p>
+
 <p>For this lesson, we’ll use <code>requests</code> solely to retrieve
 the HTML content of a website. Keep in mind that <code>requests</code>
 offers much more functionality, which you can explore in the <a href="https://requests.readthedocs.io/en/latest/" class="external-link">Requests package
@@ -406,6 +407,7 @@ Carpentry Introduction to Regular Expressions</a>.</p>
 </h3>
 <pre class="output" tabindex="0"><code>&lt;!doctype html&gt;&lt;html class=scroll-smooth lang=en-us dir=ltr&gt;&lt;head&gt;&lt;meta charset=utf-8&gt;&lt;meta name=viewport content="width=device-width"&gt;&lt;title&gt;Upcoming workshops | The Carpentries&lt;/title&gt;&lt;link rel=preconnect href=https://fonts.googleapis.com&gt;&lt;link rel=preconnect href=https://fonts.gstatic.com crossorigin&gt;&lt;link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&amp;display=swap" rel=stylesheet&gt;&lt;script defer src=https://cdn.jsdelivr.net/npm/@glidejs/glide@3.5.x&gt;&lt;/script&gt;&lt;script src=https://kit.fontawesome.com/3a6fac633d.js crossorigin=anonymous&gt;&lt;/script&gt;&lt;link rel=stylesheet href=https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css&gt;&lt;script src=https://code.jquery.com/jquery-3.7.1.min.js&gt;&lt;/script&gt;&lt;script src=https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js&gt;&lt;/script&gt;&lt;script src=https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js&gt;&lt;/script&gt;&lt;script src=https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js&gt;&lt;/script&gt;&lt;sc</code></pre>
 </div>
+
 <p>We truncated the output to show only the first 1000 characters of the
 document, as it’s too long to display fully. Still, we can confirm it’s
 HTML and notice some elements that weren’t present in the earlier
@@ -444,6 +446,7 @@ workshop might differ, since the page is updated frequently.)</p>
 DevTools offers a suite of tools for inspecting, debugging, and
 analyzing web pages in real-time. For this workshop, we’ll focus on just
 one: the “Elements” tab.</p>
+
 <p>If you selected the organization name to inspect (as shown in the
 screenshot), you’ll see an anchor (<code>&lt;a&gt;</code>) element
 highlighted in the Elements tab. Around it, as its parent, you’ll find a
@@ -457,6 +460,7 @@ website using the requests package and storing it in a variable named
 that HTML, just like we did before. The code below shows how we create
 the soup object and use <code>.find_all()</code> to locate all the
 third-level headers (<code>&lt;h3&gt;</code>) in the page.</p>
+
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -475,6 +479,7 @@ elements have a class attribute with multiple values: “title text-base
 md:text-[1.75rem] leading-[2.125rem] font-semibold”. This set of classes
 is used to apply styling, and it can help us target all elements that
 share the same formatting.</p>
+
 <p>So instead of selecting all <code>&lt;h3&gt;</code> tags directly, we
 can search for elements with this specific class using the
 <code>class_</code> argument of <code>.find_all()</code>, like this:</p>
@@ -509,6 +514,7 @@ parent of the first <code>&lt;h3&gt;</code> element using the
 <code>.parent</code> property. As expected, this will return the
 <code>&lt;div&gt;</code> element with the class attribute “p-8 mb-5
 border”.</p>
+
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -586,6 +592,7 @@ the website is continuously updated.</p>
 </div>
 <p>Taking a careful look, we can start to detect where the information
 we want is located and how to extract it in a structured way.</p>
+
 <p>We already know the workshop host organization is inside the
 <code>&lt;h3&gt;</code> element, and from there we can also get the
 hyperlink to that specific workshop’s website. Within the parent
@@ -607,6 +614,7 @@ DataFrame for easier analysis.</p>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1" aria-label="code-block-7-7"></a>dict_workshop[<span class="st">'format'</span>] <span class="op">=</span> firsth3_parent.get(<span class="st">'data-meeting'</span>)</span>
 <span id="cb7-8"><a href="#cb7-8" tabindex="-1" aria-label="code-block-7-8"></a>dict_workshop[<span class="st">'program'</span>] <span class="op">=</span> firsth3_parent.get(<span class="st">'data-program'</span>)</span></code></pre>
 </div>
+
 <p>Ok, that’s the code for extracting information about the first
 workshop listed, but what about all other workshops? Loop time!</p>
 <p>We’ll use the same logic of the previous code block. But first, we’ll
@@ -641,6 +649,7 @@ workshops, a <code>div</code> with a class attribute of “filtered”.
 Then, we can use a while loop across all its children, each of these
 being one workshop container. The rest of the code would be the
 same.</p>
+
 <div id="accordionSpoiler2" class="accordion spoiler-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler2" aria-expanded="false" aria-controls="collapseSpoiler2">
@@ -823,6 +832,7 @@ statement.</p>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1" aria-label="code-block-12-3"></a>sleep(<span class="dv">5</span>)</span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1" aria-label="code-block-12-4"></a><span class="bu">print</span>(<span class="st">'Second'</span>)</span></code></pre>
 </div>
+
 <p>Let’s incorporate this important principle as we extract additional
 information from each workshop’s individual website. We already have our
 <code>upcomingworkshops_df</code> DataFrame, which includes a
@@ -843,6 +853,7 @@ workshop in the DataFrame and take a look.</p>
 <span id="cb13-9"><a href="#cb13-9" tabindex="-1" aria-label="code-block-13-9"></a><span class="co"># Parse the HTML</span></span>
 <span id="cb13-10"><a href="#cb13-10" tabindex="-1" aria-label="code-block-13-10"></a>soup <span class="op">=</span> BeautifulSoup(cleaned_req, <span class="st">'html.parser'</span>)</span></code></pre>
 </div>
+
 <p>If we explore the HTML using the ‘View page source’ or ‘Inspect’
 tools in the browser, we notice something interesting inside the
 <code>&lt;head&gt;</code> element. Because this information is within
@@ -925,6 +936,7 @@ scraping process more robust?</p>
 </button>
 <div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
+
 <p>A straightforward Pythonic way to handle errors when accessing URLs
 is to use a <a href="https://docs.python.org/3/tutorial/errors.html" class="external-link">try-except
 block</a>. This allows you to catch any exceptions that occur when
@@ -1037,8 +1049,8 @@ any links that you are not going to use.
   "url": "https://carpentries-incubator.github.io/web-scraping-python/a-real-website.html",
   "identifier": "https://carpentries-incubator.github.io/web-scraping-python/a-real-website.html",
   "dateCreated": "2024-09-23",
-  "dateModified": "2026-08-26",
-  "datePublished": "2026-09-01"
+  "dateModified": "2026-09-07",
+  "datePublished": "2026-09-07"
 }
 
   </script><script>
