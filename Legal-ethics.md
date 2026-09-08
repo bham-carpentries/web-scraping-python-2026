@@ -132,7 +132,7 @@ Depending on the scope of your project, it might be worthwhile to consider askin
 
 ## Further help
 
-More information about copyright and text and data mining can be found on the University’s [Copyright for researchers pages](https://intranet.birmingham.ac.uk/student/libraries/copyright/researchers/index.aspx). 
+If you are affiliated with an institution or university, check with your institutional library or copyright office for further guidance on copyright, text and data mining, and licensing agreements. 
 
 
 :::::::::::::::::::::::::::::::::: keypoints
