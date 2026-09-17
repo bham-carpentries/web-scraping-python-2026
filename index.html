@@ -198,6 +198,7 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#software-setup">Software Setup</a></li>
+<li><a href="#data">Data</a></li>
 <li><a href="#additional-resources">Additional resources</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
@@ -319,23 +320,72 @@ any links that you are not going to use.
  -->
 </li>
 </ul><section id="setup"><section><h2 class="section-heading" id="software-setup">Software Setup<a class="anchor" aria-label="anchor" href="#software-setup"></a></h2>
-<hr class="half-width"><p>Steps:</p>
+<hr class="half-width"><div class="section level3">
+<h3 id="python">Python<a class="anchor" aria-label="anchor" href="#python"></a></h3>
+<p><a href="https://python.org" class="external-link">Python</a> is a popular language for
+research computing, and great for general-purpose programming as well.
+Installing all of its research packages individually can be a bit
+difficult, so we recommend <a href="https://conda-forge.org/download" class="external-link">Conda-forge</a>, an all-in-one
+installer.</p>
+<p>Regardless of how you choose to install it, <strong>please make sure
+you install a Python version &gt;= 3.9</strong> (e.g. 3.11 is fine, 3.6
+is not).</p>
+<p>We will teach Python using the <a href="https://jupyter.org" class="external-link">Jupyter
+Notebook</a>, a programming environment that runs in a web browser
+(Jupyter Notebook will be installed by Miniforge). For this to work you
+will need a reasonably up-to-date browser. The current versions of the
+Chrome, Safari and Firefox browsers are all <a href="https://jupyter-notebook.readthedocs.io/en/stable/notebook.html#browser-compatibility" class="external-link">supported</a>
+(some older browsers, including Internet Explorer version 9 and below,
+are not).</p>
+<div class="section level4">
+<h4 id="steps">Steps:<a class="anchor" aria-label="anchor" href="#steps"></a></h4>
 <ol style="list-style-type: decimal"><li>If you already have Anaconda, Jupyter Lab or Jupyter Notebooks
-installed in your computer, skip to step 2. Follow Miniforge’s <a href="https://github.com/conda-forge/miniforge?tab=readme-ov-file#download" class="external-link">download</a>
-and <a href="https://github.com/conda-forge/miniforge?tab=readme-ov-file#install" class="external-link">installation</a>
-instructions for your respective operating system. If you are using a
-Windows machine, make sure you mark the option to “Add Miniforge3 to my
-PATH environment variable”.</li>
+installed in your computer, skip to step 2.</li>
+</ol><div class="tabs">
+<nav><div id="nav-tab-1" class="nav nav-tabs" role="tablist">
+<button class="nav-link active" id="nav-tab-1-1" data-bs-toggle="tab" data-bs-target="#nav-tabpanel-1-1" type="button" role="tab" aria-controls="nav-tabpanel-1-1" aria-selected="true">
+  <h3 class="tab-header" id="nav-tab-heading-1-1">
+  Lab PC
+  </h3>
+</button>
+<button class="nav-link" id="nav-tab-1-2" data-bs-toggle="tab" data-bs-target="#nav-tabpanel-1-2" type="button" role="tab" aria-controls="nav-tabpanel-1-2" aria-selected="false">
+  <h3 class="tab-header" id="nav-tab-heading-1-2">
+  Other
+  </h3>
+</button>
+</div>
+</nav><div id="nav-tabContent-1" class="tab-content">
+<div id="nav-tabpanel-1-1" class="tab-pane show active" aria-labelledby="nav-tab-1-1" role="tabpanel">
+<ol style="list-style-type: lower-alpha"><li>Open <a href="https://apps.bham.ac.uk" class="external-link">AppsAnywhere</a> from the
+Windows Desktop.</li>
+<li>Login to your University Microsoft account when prompted.</li>
+<li>Allow the browser to open the AppsAnywhere browser.</li>
+<li>In the search bar, search for “miniforge”, which should bring up
+“Miniforge Python 24.3.0-0 with All school addons”.</li>
+<li>Select “Launch” next to Miniforge or on its description page.</li>
+<li>When ready, launch Miniforge by pressing the Launch icor or
+double-clicking.</li>
+<li>This brings up a file folder, where you should double-click on
+“Miniforge Prompt”.</li>
+</ol></div>
+<div id="nav-tabpanel-1-2" class="tab-pane" aria-labelledby="nav-tab-1-2" role="tabpanel">
+<ol style="list-style-type: lower-alpha"><li>Follow Miniforge’s <a href="https://conda-forge.org/download/" class="external-link">download and installation</a>
+and instructions for your respective operating system. If you are using
+a Windows machine, make sure you mark the option to “Add Miniforge3 to
+my PATH environment variable”.</li>
 <li>If you are using Mac or Linux, open the ‘Terminal’. If you are using
 Windows, open the ‘Command Prompt’ or ‘Miniforge Prompt’.</li>
-<li>Activate the base conda environment by typing and running the code
+</ol></div>
+</div>
+</div>
+<ol start="2" style="list-style-type: decimal"><li>Activate the base conda environment by typing and running the code
 below to activate your environment.</li>
 </ol><pre class="terminal"><code>conda activate</code></pre>
-<ol start="4" style="list-style-type: decimal"><li>Install the necessary packages by running:</li>
+<ol start="3" style="list-style-type: decimal"><li>Install the necessary packages by running:</li>
 </ol><pre class="terminal"><code>pip install requests beautifulsoup4 selenium webdriver-manager pandas tqdm jupyterlab</code></pre>
-<ol start="5" style="list-style-type: decimal"><li>Start Jupyter Lab by running:</li>
+<ol start="4" style="list-style-type: decimal"><li>Start Jupyter Lab by running:</li>
 </ol><pre class="terminal"><code>jupyter lab</code></pre>
-<ol start="6" style="list-style-type: decimal"><li>In a new Jupyter Notebook run the following code in a cell to check
+<ol start="5" style="list-style-type: decimal"><li>In a new Jupyter Notebook run the following code in a cell to check
 the necessary libraries can be loaded:</li>
 </ol><div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -346,6 +396,13 @@ the necessary libraries can be loaded:</li>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1" aria-label="code-block-4-4"></a><span class="im">from</span> selenium.webdriver.common.by <span class="im">import</span> By</span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1" aria-label="code-block-4-5"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre>
 </div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
+<hr class="half-width"><p>The html used in Episode 1 and Jupyter notebooks containing the code
+content can be <a href="data/PythonWebScrapingFiles.zip">downloaded</a>.
+The Jupyter notebooks are intended for reference as ideally, you will
+create your own notebooks as you follow along during the course.</p>
 </section><section><h2 class="section-heading" id="additional-resources">Additional resources<a class="anchor" aria-label="anchor" href="#additional-resources"></a></h2>
 <hr class="half-width"><ul><li>Mitchell, R. (Ryan E. ). (2024). Web scraping with Python : data
 extraction from the modern web (3rd edition.). O’Reilly Media, Inc.</li>

@@ -337,7 +337,7 @@
         
 <section id="aio-hello-scraping"><p>Content from <a href="hello-scraping.html">Hello-Scraping</a></p>
 <hr>
-<p>Last updated on 2026-09-08 |
+<p>Last updated on 2026-09-17 |
 
         <a href="https://github.com/carpentries-incubator/web-scraping-python/edit/main/episodes/hello-scraping.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -522,6 +522,7 @@ package along with Pandas.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre>
 </div>
+
 <p>Let’s store the HTML content in a string variable named
 <code>example_html</code>.</p>
 <div class="codewrapper sourceCode" id="cb3">
@@ -556,6 +557,7 @@ structure —similar to the tree structure we discussed earlier. Using the
 <code>.prettify()</code> method on this object displays the HTML with
 indentation that reflects its nested structure, making it easier to
 read.</p>
+
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -623,6 +625,7 @@ the starting and closing tags.</p></li>
 </ul>
 <p>Below, you’ll see examples of how these commands work with our simple
 website.</p>
+
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -675,6 +678,7 @@ two hyperlinks, and we could extract them in a list using the
 [&lt;a href="https://carpentries.org/"&gt;The Carpentries homepage&lt;/a&gt;, &lt;a href="https://carpentries.org/workshops/past-workshops/"&gt;past workshops&lt;/a&gt;]
 </code></pre>
 </div>
+
 <p>To access the value of a given attribute in an element, for example
 the value of the <code>href</code> attribute in
 <code>&lt;a href=""&gt;</code>, we would use the <code>.get()</code>
@@ -721,7 +725,7 @@ HTML of our example.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>One way of completing the exercise is as follows.</p>
 <div class="codewrapper sourceCode" id="cb13">
@@ -754,6 +758,8 @@ up a dictionary of results step by step.</p>
 </div>
 </div>
 </div>
+
+
 <p>To wrap up this introduction to HTML and BeautifulSoup, let’s write
 code that extracts all hyperlink elements in a structured way —capturing
 each link’s tag, destination URL, and display text.</p>
@@ -764,20 +770,20 @@ dictionary, and append each dictionary to a list called
 <code>link_info_list</code>. At the end, we’ll have a list containing
 two dictionaries —one for each link— which we can easily convert into a
 Pandas DataFrame.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1" aria-label="code-block-15-1"></a>links <span class="op">=</span> soup.find_all(<span class="st">'a'</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1" aria-label="code-block-15-2"></a>link_info_list <span class="op">=</span> []</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1" aria-label="code-block-15-3"></a><span class="cf">for</span> link <span class="kw">in</span> links:</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1" aria-label="code-block-15-4"></a>    dict_a <span class="op">=</span> {}</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1" aria-label="code-block-15-5"></a>    dict_a[<span class="st">'element'</span>] <span class="op">=</span> <span class="bu">str</span>(link)</span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1" aria-label="code-block-15-6"></a>    dict_a[<span class="st">'url'</span>] <span class="op">=</span> link.get(<span class="st">'href'</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1" aria-label="code-block-15-7"></a>    dict_a[<span class="st">'text'</span>] <span class="op">=</span> link.get_text()</span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1" aria-label="code-block-15-8"></a>    link_info_list.append(dict_a)</span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1" aria-label="code-block-15-9"></a></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1" aria-label="code-block-15-10"></a>links_df <span class="op">=</span> pd.DataFrame(link_info_list)</span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1" aria-label="code-block-15-11"></a><span class="bu">print</span>(links_df)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1" aria-label="code-block-16-1"></a>links <span class="op">=</span> soup.find_all(<span class="st">'a'</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1" aria-label="code-block-16-2"></a>link_info_list <span class="op">=</span> []</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1" aria-label="code-block-16-3"></a><span class="cf">for</span> link <span class="kw">in</span> links:</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1" aria-label="code-block-16-4"></a>    dict_a <span class="op">=</span> {}</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1" aria-label="code-block-16-5"></a>    dict_a[<span class="st">'element'</span>] <span class="op">=</span> <span class="bu">str</span>(link)</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1" aria-label="code-block-16-6"></a>    dict_a[<span class="st">'url'</span>] <span class="op">=</span> link.get(<span class="st">'href'</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1" aria-label="code-block-16-7"></a>    dict_a[<span class="st">'text'</span>] <span class="op">=</span> link.get_text()</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1" aria-label="code-block-16-8"></a>    link_info_list.append(dict_a)</span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1" aria-label="code-block-16-9"></a></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1" aria-label="code-block-16-10"></a>links_df <span class="op">=</span> pd.DataFrame(link_info_list)</span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1" aria-label="code-block-16-11"></a><span class="bu">print</span>(links_df)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -786,15 +792,17 @@ Pandas DataFrame.</p>
 0  &lt;a href="https://carpentries.org/"&gt;The Carpent...                           https://carpentries.org/  The Carpentries homepage
 1  &lt;a href="https://carpentries.org/workshops/pas...  https://carpentries.org/workshops/past-workshops/            past workshops</code></pre>
 </div>
+
 <p>The dataframe can also be exported as, for example, a .csv file</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1" aria-label="code-block-17-1"></a>links_df.to_csv(<span class="st">'OutputCSV.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1" aria-label="code-block-18-1"></a>links_df.to_csv(<span class="st">'OutputCSV.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre>
 </div>
 <p>You can find more detailed information about the BeautifulSoup
 package and its full range of methods in the <a href="https://beautiful-soup-4.readthedocs.io/en/latest/" class="external-link">BeautifulSoup
 Documentation</a>.</p>
+
 </section><section><h2 class="section-heading" id="the-rights-wrongs-and-legal-barriers-to-scraping">The rights, wrongs, and legal barriers to scraping<a class="anchor" aria-label="anchor" href="#the-rights-wrongs-and-legal-barriers-to-scraping"></a>
 </h2>
 <hr class="half-width">
@@ -882,7 +890,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-a-real-website"><p>Content from <a href="a-real-website.html">Scraping a real website</a></p>
 <hr>
-<p>Last updated on 2026-09-08 |
+<p>Last updated on 2026-09-17 |
 
         <a href="https://github.com/carpentries-incubator/web-scraping-python/edit/main/episodes/a-real-website.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -943,6 +951,7 @@ and past workshops directly.</p>
 website. Now that we’re moving into a more realistic and complex
 scenario, we’ll add another tool to our toolbox: the
 <code>requests</code> package.</p>
+
 <p>For this lesson, we’ll use <code>requests</code> solely to retrieve
 the HTML content of a website. Keep in mind that <code>requests</code>
 offers much more functionality, which you can explore in the <a href="https://requests.readthedocs.io/en/latest/" class="external-link">Requests package
@@ -984,6 +993,7 @@ Carpentry Introduction to Regular Expressions</a>.</p>
 </h3>
 <pre class="output" tabindex="0"><code>&lt;!doctype html&gt;&lt;html class=scroll-smooth lang=en-us dir=ltr&gt;&lt;head&gt;&lt;meta charset=utf-8&gt;&lt;meta name=viewport content="width=device-width"&gt;&lt;title&gt;Upcoming workshops | The Carpentries&lt;/title&gt;&lt;link rel=preconnect href=https://fonts.googleapis.com&gt;&lt;link rel=preconnect href=https://fonts.gstatic.com crossorigin&gt;&lt;link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&amp;display=swap" rel=stylesheet&gt;&lt;script defer src=https://cdn.jsdelivr.net/npm/@glidejs/glide@3.5.x&gt;&lt;/script&gt;&lt;script src=https://kit.fontawesome.com/3a6fac633d.js crossorigin=anonymous&gt;&lt;/script&gt;&lt;link rel=stylesheet href=https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css&gt;&lt;script src=https://code.jquery.com/jquery-3.7.1.min.js&gt;&lt;/script&gt;&lt;script src=https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js&gt;&lt;/script&gt;&lt;script src=https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js&gt;&lt;/script&gt;&lt;script src=https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js&gt;&lt;/script&gt;&lt;sc</code></pre>
 </div>
+
 <p>We truncated the output to show only the first 1000 characters of the
 document, as it’s too long to display fully. Still, we can confirm it’s
 HTML and notice some elements that weren’t present in the earlier
@@ -1024,6 +1034,7 @@ workshop might differ, since the page is updated frequently.)</p>
 DevTools offers a suite of tools for inspecting, debugging, and
 analyzing web pages in real-time. For this workshop, we’ll focus on just
 one: the “Elements” tab.</p>
+
 <p>If you selected the organization name to inspect (as shown in the
 screenshot), you’ll see an anchor (<code>&lt;a&gt;</code>) element
 highlighted in the Elements tab. Around it, as its parent, you’ll find a
@@ -1037,6 +1048,7 @@ website using the requests package and storing it in a variable named
 that HTML, just like we did before. The code below shows how we create
 the soup object and use <code>.find_all()</code> to locate all the
 third-level headers (<code>&lt;h3&gt;</code>) in the page.</p>
+
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1055,6 +1067,7 @@ elements have a class attribute with multiple values: “title text-base
 md:text-[1.75rem] leading-[2.125rem] font-semibold”. This set of classes
 is used to apply styling, and it can help us target all elements that
 share the same formatting.</p>
+
 <p>So instead of selecting all <code>&lt;h3&gt;</code> tags directly, we
 can search for elements with this specific class using the
 <code>class_</code> argument of <code>.find_all()</code>, like this:</p>
@@ -1091,6 +1104,7 @@ parent of the first <code>&lt;h3&gt;</code> element using the
 <code>.parent</code> property. As expected, this will return the
 <code>&lt;div&gt;</code> element with the class attribute “p-8 mb-5
 border”.</p>
+
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1103,7 +1117,7 @@ border”.</p>
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
   <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Python output </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>Remember, the output shown here is probably different than yours, as
 the website is continuously updated.</p>
@@ -1168,6 +1182,7 @@ the website is continuously updated.</p>
 </div>
 <p>Taking a careful look, we can start to detect where the information
 we want is located and how to extract it in a structured way.</p>
+
 <p>We already know the workshop host organization is inside the
 <code>&lt;h3&gt;</code> element, and from there we can also get the
 hyperlink to that specific workshop’s website. Within the parent
@@ -1189,6 +1204,7 @@ DataFrame for easier analysis.</p>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1" aria-label="code-block-7-7"></a>dict_workshop[<span class="st">'format'</span>] <span class="op">=</span> firsth3_parent.get(<span class="st">'data-meeting'</span>)</span>
 <span id="cb7-8"><a href="#cb7-8" tabindex="-1" aria-label="code-block-7-8"></a>dict_workshop[<span class="st">'program'</span>] <span class="op">=</span> firsth3_parent.get(<span class="st">'data-program'</span>)</span></code></pre>
 </div>
+
 <p>Ok, that’s the code for extracting information about the first
 workshop listed, but what about all other workshops? Loop time!</p>
 <p>We’ll use the same logic of the previous code block. But first, we’ll
@@ -1223,12 +1239,13 @@ workshops, a <code>div</code> with a class attribute of “filtered”.
 Then, we can use a while loop across all its children, each of these
 being one workshop container. The rest of the code would be the
 same.</p>
+
 <div id="accordionSpoiler2" class="accordion spoiler-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler2" aria-expanded="false" aria-controls="collapseSpoiler2">
   <h3 class="accordion-header" id="headingSpoiler2">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Alternative code </h3>
 </button>
-<div id="collapseSpoiler2" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler2" aria-labelledby="headingSpoiler2">
+<div id="collapseSpoiler2" class="accordion-collapse collapse" aria-labelledby="headingSpoiler2" data-bs-parent="#accordionSpoiler2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1286,7 +1303,7 @@ held?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>We can reuse directly the code we wrote before, changing only the URL
 we got the HTML from.</p>
@@ -1345,7 +1362,7 @@ workshops.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Instructors appear to be inside a <code>span</code> element
 identified with the “instructors” class attribute. Similarly for
@@ -1407,6 +1424,7 @@ statement.</p>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1" aria-label="code-block-12-3"></a>sleep(<span class="dv">5</span>)</span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1" aria-label="code-block-12-4"></a><span class="bu">print</span>(<span class="st">'Second'</span>)</span></code></pre>
 </div>
+
 <p>Let’s incorporate this important principle as we extract additional
 information from each workshop’s individual website. We already have our
 <code>upcomingworkshops_df</code> DataFrame, which includes a
@@ -1427,6 +1445,7 @@ workshop in the DataFrame and take a look.</p>
 <span id="cb13-9"><a href="#cb13-9" tabindex="-1" aria-label="code-block-13-9"></a><span class="co"># Parse the HTML</span></span>
 <span id="cb13-10"><a href="#cb13-10" tabindex="-1" aria-label="code-block-13-10"></a>soup <span class="op">=</span> BeautifulSoup(cleaned_req, <span class="st">'html.parser'</span>)</span></code></pre>
 </div>
+
 <p>If we explore the HTML using the ‘View page source’ or ‘Inspect’
 tools in the browser, we notice something interesting inside the
 <code>&lt;head&gt;</code> element. Because this information is within
@@ -1507,8 +1526,9 @@ scraping process more robust?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
+
 <p>A straightforward Pythonic way to handle errors when accessing URLs
 is to use a <a href="https://docs.python.org/3/tutorial/errors.html" class="external-link">try-except
 block</a>. This allows you to catch any exceptions that occur when
@@ -1565,7 +1585,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-dynamic-websites"><p>Content from <a href="dynamic-websites.html">Dynamic websites</a></p>
 <hr>
-<p>Last updated on 2026-09-08 |
+<p>Last updated on 2026-09-17 |
 
         <a href="https://github.com/carpentries-incubator/web-scraping-python/edit/main/episodes/dynamic-websites.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1675,6 +1695,7 @@ Safari, and others. For now, we’ll use Chrome. When you run the
 following line of code, a new Google Chrome window will open. Don’t
 close it, this is the browser that Selenium is controlling to interact
 with the webpage.</p>
+
 <p>Later in the lesson, we’ll learn how to run headless browser
 sessions. Headless means the browser runs in the background without
 opening a visible window or user interface, which is useful for
@@ -1690,6 +1711,7 @@ to the Oscar winners page, use the <code>.get()</code> method on the
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1" aria-label="code-block-2-4"></a><span class="co"># Go to a specific website</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1" aria-label="code-block-2-5"></a>driver.get(<span class="st">"https://www.scrapethissite.com/pages/ajax-javascript/"</span>)</span></code></pre>
 </div>
+
 <p>How can we direct Selenium to click the “2015” text so the table for
 that year appears? First, we need to locate that element, similar to how
 we used <code>.find()</code> and <code>.find_all()</code> with
@@ -1723,6 +1745,7 @@ element directly using:</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1" aria-label="code-block-4-1"></a><span class="co"># Find 2015 element button</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1" aria-label="code-block-4-2"></a>button_2015 <span class="op">=</span> driver.find_element(by<span class="op">=</span>By.ID, value<span class="op">=</span><span class="st">"2015"</span>)</span></code></pre>
 </div>
+
 <p>We’ve located the hyperlink element we need to click to display the
 table for that year, and we’ll use the <code>.click()</code> method to
 interact with it. Since the table takes a couple of seconds to load,
@@ -1750,18 +1773,19 @@ window Selenium opened using <code>driver.quit()</code>.</p>
 <strong>is the HTML after the dynamic content loaded</strong>. This
 content wasn’t present in the original HTML and wouldn’t be accessible
 if we had used the requests package alone.</p>
+
 <p>While we could continue using Selenium’s <code>.find_element()</code>
 and <code>.find_elements()</code> methods to extract the data, we’ll
 switch back to BeautifulSoup to parse the HTML and locate elements,
 since we already have practice with it. For example, if we search for
 the first element with the class attribute “film” and retrieve its text,
 we’ll see that the HTML now includes the movie “Spotlight.”</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1" aria-label="code-block-6-1"></a><span class="co"># Parse HTML and </span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1" aria-label="code-block-6-2"></a>soup <span class="op">=</span> BeautifulSoup(html_2015, <span class="st">'html.parser'</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1" aria-label="code-block-6-3"></a><span class="bu">print</span>(soup.find(class_<span class="op">=</span><span class="st">'film'</span>).prettify())</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1" aria-label="code-block-7-1"></a><span class="co"># Parse HTML and </span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1" aria-label="code-block-7-2"></a>soup <span class="op">=</span> BeautifulSoup(html_2015, <span class="st">'html.parser'</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1" aria-label="code-block-7-3"></a><span class="bu">print</span>(soup.find(class_<span class="op">=</span><span class="st">'film'</span>).prettify())</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1782,106 +1806,46 @@ we’ll see that the HTML now includes the movie “Spotlight.”</p>
  &lt;/td&gt;
 &lt;/tr&gt;</code></pre>
 </div>
+
 <p>The following code repeats the process of clicking and loading the
 2015 data, but now in “headless” mode (meaning the browser runs in the
 background without opening a visible window). It then uses a loop to
 extract all of the 2015 film titles.</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1" aria-label="code-block-8-1"></a><span class="co"># Create the Selenium webdriver and make it headless</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1" aria-label="code-block-8-2"></a>options <span class="op">=</span> webdriver.ChromeOptions()</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1" aria-label="code-block-8-3"></a>options.add_argument(<span class="st">"--headless=new"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1" aria-label="code-block-8-4"></a>driver <span class="op">=</span> webdriver.Chrome(options<span class="op">=</span>options)</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1" aria-label="code-block-8-5"></a></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1" aria-label="code-block-8-6"></a><span class="co"># Load the website. </span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1" aria-label="code-block-8-7"></a>driver.get(<span class="st">"https://www.scrapethissite.com/pages/ajax-javascript/"</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1" aria-label="code-block-8-8"></a></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1" aria-label="code-block-8-9"></a><span class="co"># Find and click the 2015 button</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1" aria-label="code-block-8-10"></a>button_2015 <span class="op">=</span> driver.find_element(by<span class="op">=</span>By.ID, value<span class="op">=</span><span class="st">"2015"</span>)</span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1" aria-label="code-block-8-11"></a>button_2015.click()</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1" aria-label="code-block-8-12"></a>sleep(<span class="dv">3</span>)</span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1" aria-label="code-block-8-13"></a></span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1" aria-label="code-block-8-14"></a><span class="co"># Get the post JavaScript execution HTML and close the webdriver</span></span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1" aria-label="code-block-8-15"></a>html_2015 <span class="op">=</span> driver.page_source</span>
-<span id="cb8-16"><a href="#cb8-16" tabindex="-1" aria-label="code-block-8-16"></a>driver.quit()</span>
-<span id="cb8-17"><a href="#cb8-17" tabindex="-1" aria-label="code-block-8-17"></a></span>
-<span id="cb8-18"><a href="#cb8-18" tabindex="-1" aria-label="code-block-8-18"></a><span class="co"># Extract all of the 2015 film titles</span></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1" aria-label="code-block-8-19"></a>titles <span class="op">=</span> []</span>
-<span id="cb8-20"><a href="#cb8-20" tabindex="-1" aria-label="code-block-8-20"></a><span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-title"</span>):</span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1" aria-label="code-block-8-21"></a>    titles.append(elem.get_text())</span>
-<span id="cb8-22"><a href="#cb8-22" tabindex="-1" aria-label="code-block-8-22"></a><span class="bu">print</span>(titles)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1" aria-label="code-block-9-1"></a><span class="co"># Create the Selenium webdriver and make it headless</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1" aria-label="code-block-9-2"></a>options <span class="op">=</span> webdriver.ChromeOptions()</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1" aria-label="code-block-9-3"></a>options.add_argument(<span class="st">"--headless=new"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1" aria-label="code-block-9-4"></a>driver <span class="op">=</span> webdriver.Chrome(options<span class="op">=</span>options)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1" aria-label="code-block-9-5"></a></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1" aria-label="code-block-9-6"></a><span class="co"># Load the website. </span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1" aria-label="code-block-9-7"></a>driver.get(<span class="st">"https://www.scrapethissite.com/pages/ajax-javascript/"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1" aria-label="code-block-9-8"></a></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1" aria-label="code-block-9-9"></a><span class="co"># Find and click the 2015 button</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1" aria-label="code-block-9-10"></a>button_2015 <span class="op">=</span> driver.find_element(by<span class="op">=</span>By.ID, value<span class="op">=</span><span class="st">"2015"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1" aria-label="code-block-9-11"></a>button_2015.click()</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1" aria-label="code-block-9-12"></a>sleep(<span class="dv">3</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1" aria-label="code-block-9-13"></a></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1" aria-label="code-block-9-14"></a><span class="co"># Get the post JavaScript execution HTML and close the webdriver</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1" aria-label="code-block-9-15"></a>html_2015 <span class="op">=</span> driver.page_source</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1" aria-label="code-block-9-16"></a>driver.quit()</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1" aria-label="code-block-9-17"></a></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1" aria-label="code-block-9-18"></a><span class="co"># Extract all of the 2015 film titles</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1" aria-label="code-block-9-19"></a>titles <span class="op">=</span> []</span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1" aria-label="code-block-9-20"></a><span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-title"</span>):</span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1" aria-label="code-block-9-21"></a>    titles.append(elem.get_text())</span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1" aria-label="code-block-9-22"></a><span class="bu">print</span>(titles)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="output" tabindex="0"><code>['Spotlight  ', 'Mad Max: Fury Road ', 'The Revenant   ', 'Bridge of Spies', 'The Big Short  ', 'The Danish Girl', 'Room   ', 'Ex Machina ', 'The Hateful Eight  ', 'Inside Out ', 'Amy', 'Bear Story ', 'A Girl in the River: The Price of Forgiveness  ', 'Son of Saul', 'Spectre', 'Stutterer  ']</code></pre>
 </div>
+
 <p>This code can be extended so that, after the data loads, the code
 extracts information from the table one column at a time, using the fact
 that each column has a unique class attribute.</p>
-<div class="codewrapper sourceCode" id="cb10">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1" aria-label="code-block-10-1"></a><span class="co"># Create the Selenium webdriver and make it headless</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1" aria-label="code-block-10-2"></a>options <span class="op">=</span> webdriver.ChromeOptions()</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1" aria-label="code-block-10-3"></a>options.add_argument(<span class="st">"--headless=new"</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1" aria-label="code-block-10-4"></a>driver <span class="op">=</span> webdriver.Chrome(options<span class="op">=</span>options)</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1" aria-label="code-block-10-5"></a></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1" aria-label="code-block-10-6"></a><span class="co"># Load the website. </span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1" aria-label="code-block-10-7"></a>driver.get(<span class="st">"https://www.scrapethissite.com/pages/ajax-javascript/"</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1" aria-label="code-block-10-8"></a></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1" aria-label="code-block-10-9"></a><span class="co"># Find and click the 2015 button</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1" aria-label="code-block-10-10"></a>button_2015 <span class="op">=</span> driver.find_element(by<span class="op">=</span>By.ID, value<span class="op">=</span><span class="st">"2015"</span>)</span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1" aria-label="code-block-10-11"></a>button_2015.click()</span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1" aria-label="code-block-10-12"></a>sleep(<span class="dv">3</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1" aria-label="code-block-10-13"></a></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1" aria-label="code-block-10-14"></a><span class="co"># Get the post JavaScript execution HTML and close the webdriver</span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1" aria-label="code-block-10-15"></a>html_2015 <span class="op">=</span> driver.page_source</span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1" aria-label="code-block-10-16"></a>driver.quit()</span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1" aria-label="code-block-10-17"></a></span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1" aria-label="code-block-10-18"></a><span class="co"># Parse HTML using BeautifulSoup and extract each column as a list of values ising list comprehensions</span></span>
-<span id="cb10-19"><a href="#cb10-19" tabindex="-1" aria-label="code-block-10-19"></a>soup <span class="op">=</span> BeautifulSoup(html_2015, <span class="st">'html.parser'</span>)</span>
-<span id="cb10-20"><a href="#cb10-20" tabindex="-1" aria-label="code-block-10-20"></a></span>
-<span id="cb10-21"><a href="#cb10-21" tabindex="-1" aria-label="code-block-10-21"></a>titles <span class="op">=</span> []</span>
-<span id="cb10-22"><a href="#cb10-22" tabindex="-1" aria-label="code-block-10-22"></a><span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-title"</span>):</span>
-<span id="cb10-23"><a href="#cb10-23" tabindex="-1" aria-label="code-block-10-23"></a>    titles.append(elem.get_text())</span>
-<span id="cb10-24"><a href="#cb10-24" tabindex="-1" aria-label="code-block-10-24"></a>    </span>
-<span id="cb10-25"><a href="#cb10-25" tabindex="-1" aria-label="code-block-10-25"></a>nominations <span class="op">=</span> []</span>
-<span id="cb10-26"><a href="#cb10-26" tabindex="-1" aria-label="code-block-10-26"></a><span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-nominations"</span>):</span>
-<span id="cb10-27"><a href="#cb10-27" tabindex="-1" aria-label="code-block-10-27"></a>    nominations.append(elem.get_text())</span>
-<span id="cb10-28"><a href="#cb10-28" tabindex="-1" aria-label="code-block-10-28"></a>    </span>
-<span id="cb10-29"><a href="#cb10-29" tabindex="-1" aria-label="code-block-10-29"></a>awards <span class="op">=</span> []</span>
-<span id="cb10-30"><a href="#cb10-30" tabindex="-1" aria-label="code-block-10-30"></a><span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-awards"</span>):</span>
-<span id="cb10-31"><a href="#cb10-31" tabindex="-1" aria-label="code-block-10-31"></a>    awards.append(elem.get_text())</span>
-<span id="cb10-32"><a href="#cb10-32" tabindex="-1" aria-label="code-block-10-32"></a></span>
-<span id="cb10-33"><a href="#cb10-33" tabindex="-1" aria-label="code-block-10-33"></a><span class="co"># For the best picture column, we can't use .get_text() as there is no text</span></span>
-<span id="cb10-34"><a href="#cb10-34" tabindex="-1" aria-label="code-block-10-34"></a><span class="co"># Rather, we want to see if there is an &lt;i&gt; tag</span></span>
-<span id="cb10-35"><a href="#cb10-35" tabindex="-1" aria-label="code-block-10-35"></a>best_picture <span class="op">=</span> []</span>
-<span id="cb10-36"><a href="#cb10-36" tabindex="-1" aria-label="code-block-10-36"></a><span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-best-picture"</span>):</span>
-<span id="cb10-37"><a href="#cb10-37" tabindex="-1" aria-label="code-block-10-37"></a>    <span class="cf">if</span> elem.find(<span class="st">"i"</span>) <span class="op">==</span> <span class="va">None</span>:</span>
-<span id="cb10-38"><a href="#cb10-38" tabindex="-1" aria-label="code-block-10-38"></a>        best_picture.append(<span class="st">"No"</span>)</span>
-<span id="cb10-39"><a href="#cb10-39" tabindex="-1" aria-label="code-block-10-39"></a>    <span class="cf">else</span>:</span>
-<span id="cb10-40"><a href="#cb10-40" tabindex="-1" aria-label="code-block-10-40"></a>        best_picture.append(<span class="st">"Yes"</span>)</span>
-<span id="cb10-41"><a href="#cb10-41" tabindex="-1" aria-label="code-block-10-41"></a>        </span>
-<span id="cb10-42"><a href="#cb10-42" tabindex="-1" aria-label="code-block-10-42"></a><span class="co"># Create a dataframe based on the previous lists</span></span>
-<span id="cb10-43"><a href="#cb10-43" tabindex="-1" aria-label="code-block-10-43"></a>movies_2015 <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb10-44"><a href="#cb10-44" tabindex="-1" aria-label="code-block-10-44"></a>    {<span class="st">'titles'</span>: titles, <span class="st">'nominations'</span>: nominations, <span class="st">'awards'</span>: awards, <span class="st">'best_picture'</span>: best_picture}</span>
-<span id="cb10-45"><a href="#cb10-45" tabindex="-1" aria-label="code-block-10-45"></a>)</span></code></pre>
-</div>
-<div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
-  <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> A more concise way to generate the lists </h3>
-</button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
-<div class="accordion-body">
-<p>Instead of writing traditional for loops to extract the text from
-each element returned by .find_all(), we use list comprehensions, which
-provide a more concise way to generate lists. You can learn more about
-them reading <a href="https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions" class="external-link">Python’s
-documentation on list comprehensions</a> or this <a href="https://www.programiz.com/python-programming/list-comprehension" class="external-link">short
-tutorial by Programiz</a>.</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1902,21 +1866,83 @@ tutorial by Programiz</a>.</p>
 <span id="cb11-15"><a href="#cb11-15" tabindex="-1" aria-label="code-block-11-15"></a>html_2015 <span class="op">=</span> driver.page_source</span>
 <span id="cb11-16"><a href="#cb11-16" tabindex="-1" aria-label="code-block-11-16"></a>driver.quit()</span>
 <span id="cb11-17"><a href="#cb11-17" tabindex="-1" aria-label="code-block-11-17"></a></span>
-<span id="cb11-18"><a href="#cb11-18" tabindex="-1" aria-label="code-block-11-18"></a><span class="co"># Parse HTML using BeautifulSoup and extract each column</span></span>
-<span id="cb11-19"><a href="#cb11-19" tabindex="-1" aria-label="code-block-11-19"></a><span class="co"># as a list of values using list comprehensions</span></span>
-<span id="cb11-20"><a href="#cb11-20" tabindex="-1" aria-label="code-block-11-20"></a>soup <span class="op">=</span> BeautifulSoup(html_2015, <span class="st">'html.parser'</span>)</span>
-<span id="cb11-21"><a href="#cb11-21" tabindex="-1" aria-label="code-block-11-21"></a>titles_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-title"</span>)]</span>
-<span id="cb11-22"><a href="#cb11-22" tabindex="-1" aria-label="code-block-11-22"></a>nominations_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-nominations"</span>)]</span>
-<span id="cb11-23"><a href="#cb11-23" tabindex="-1" aria-label="code-block-11-23"></a>awards_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-awards"</span>)]</span>
-<span id="cb11-24"><a href="#cb11-24" tabindex="-1" aria-label="code-block-11-24"></a></span>
-<span id="cb11-25"><a href="#cb11-25" tabindex="-1" aria-label="code-block-11-25"></a><span class="co"># For the best picture, we can't use .get_text() as there is no text</span></span>
-<span id="cb11-26"><a href="#cb11-26" tabindex="-1" aria-label="code-block-11-26"></a><span class="co"># Rather, we want to see if there is an &lt;i&gt; tag</span></span>
-<span id="cb11-27"><a href="#cb11-27" tabindex="-1" aria-label="code-block-11-27"></a>best_picture_lc <span class="op">=</span> [<span class="st">"No"</span> <span class="cf">if</span> elem.find(<span class="st">"i"</span>) <span class="op">==</span> <span class="va">None</span> <span class="cf">else</span> <span class="st">"Yes"</span> <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-best-picture"</span>)]</span>
-<span id="cb11-28"><a href="#cb11-28" tabindex="-1" aria-label="code-block-11-28"></a></span>
-<span id="cb11-29"><a href="#cb11-29" tabindex="-1" aria-label="code-block-11-29"></a><span class="co"># Create a dataframe based on the previous lists</span></span>
-<span id="cb11-30"><a href="#cb11-30" tabindex="-1" aria-label="code-block-11-30"></a>movies_2015 <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb11-31"><a href="#cb11-31" tabindex="-1" aria-label="code-block-11-31"></a>    {<span class="st">'titles'</span>: titles_lc, <span class="st">'nominations'</span>: nominations_lc, <span class="st">'awards'</span>: awards_lc, <span class="st">'best_picture'</span>: best_picture_lc}</span>
-<span id="cb11-32"><a href="#cb11-32" tabindex="-1" aria-label="code-block-11-32"></a>)</span></code></pre>
+<span id="cb11-18"><a href="#cb11-18" tabindex="-1" aria-label="code-block-11-18"></a><span class="co"># Parse HTML using BeautifulSoup and extract each column as a list of values ising list comprehensions</span></span>
+<span id="cb11-19"><a href="#cb11-19" tabindex="-1" aria-label="code-block-11-19"></a>soup <span class="op">=</span> BeautifulSoup(html_2015, <span class="st">'html.parser'</span>)</span>
+<span id="cb11-20"><a href="#cb11-20" tabindex="-1" aria-label="code-block-11-20"></a></span>
+<span id="cb11-21"><a href="#cb11-21" tabindex="-1" aria-label="code-block-11-21"></a>titles <span class="op">=</span> []</span>
+<span id="cb11-22"><a href="#cb11-22" tabindex="-1" aria-label="code-block-11-22"></a><span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-title"</span>):</span>
+<span id="cb11-23"><a href="#cb11-23" tabindex="-1" aria-label="code-block-11-23"></a>    titles.append(elem.get_text())</span>
+<span id="cb11-24"><a href="#cb11-24" tabindex="-1" aria-label="code-block-11-24"></a>    </span>
+<span id="cb11-25"><a href="#cb11-25" tabindex="-1" aria-label="code-block-11-25"></a>nominations <span class="op">=</span> []</span>
+<span id="cb11-26"><a href="#cb11-26" tabindex="-1" aria-label="code-block-11-26"></a><span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-nominations"</span>):</span>
+<span id="cb11-27"><a href="#cb11-27" tabindex="-1" aria-label="code-block-11-27"></a>    nominations.append(elem.get_text())</span>
+<span id="cb11-28"><a href="#cb11-28" tabindex="-1" aria-label="code-block-11-28"></a>    </span>
+<span id="cb11-29"><a href="#cb11-29" tabindex="-1" aria-label="code-block-11-29"></a>awards <span class="op">=</span> []</span>
+<span id="cb11-30"><a href="#cb11-30" tabindex="-1" aria-label="code-block-11-30"></a><span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-awards"</span>):</span>
+<span id="cb11-31"><a href="#cb11-31" tabindex="-1" aria-label="code-block-11-31"></a>    awards.append(elem.get_text())</span>
+<span id="cb11-32"><a href="#cb11-32" tabindex="-1" aria-label="code-block-11-32"></a></span>
+<span id="cb11-33"><a href="#cb11-33" tabindex="-1" aria-label="code-block-11-33"></a><span class="co"># For the best picture column, we can't use .get_text() as there is no text</span></span>
+<span id="cb11-34"><a href="#cb11-34" tabindex="-1" aria-label="code-block-11-34"></a><span class="co"># Rather, we want to see if there is an &lt;i&gt; tag</span></span>
+<span id="cb11-35"><a href="#cb11-35" tabindex="-1" aria-label="code-block-11-35"></a>best_picture <span class="op">=</span> []</span>
+<span id="cb11-36"><a href="#cb11-36" tabindex="-1" aria-label="code-block-11-36"></a><span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-best-picture"</span>):</span>
+<span id="cb11-37"><a href="#cb11-37" tabindex="-1" aria-label="code-block-11-37"></a>    <span class="cf">if</span> elem.find(<span class="st">"i"</span>) <span class="op">==</span> <span class="va">None</span>:</span>
+<span id="cb11-38"><a href="#cb11-38" tabindex="-1" aria-label="code-block-11-38"></a>        best_picture.append(<span class="st">"No"</span>)</span>
+<span id="cb11-39"><a href="#cb11-39" tabindex="-1" aria-label="code-block-11-39"></a>    <span class="cf">else</span>:</span>
+<span id="cb11-40"><a href="#cb11-40" tabindex="-1" aria-label="code-block-11-40"></a>        best_picture.append(<span class="st">"Yes"</span>)</span>
+<span id="cb11-41"><a href="#cb11-41" tabindex="-1" aria-label="code-block-11-41"></a>        </span>
+<span id="cb11-42"><a href="#cb11-42" tabindex="-1" aria-label="code-block-11-42"></a><span class="co"># Create a dataframe based on the previous lists</span></span>
+<span id="cb11-43"><a href="#cb11-43" tabindex="-1" aria-label="code-block-11-43"></a>movies_2015 <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb11-44"><a href="#cb11-44" tabindex="-1" aria-label="code-block-11-44"></a>    {<span class="st">'titles'</span>: titles, <span class="st">'nominations'</span>: nominations, <span class="st">'awards'</span>: awards, <span class="st">'best_picture'</span>: best_picture}</span>
+<span id="cb11-45"><a href="#cb11-45" tabindex="-1" aria-label="code-block-11-45"></a>)</span></code></pre>
+</div>
+<div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
+  <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> A more concise way to generate the lists </h3>
+</button>
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div class="accordion-body">
+<p>Instead of writing traditional for loops to extract the text from
+each element returned by .find_all(), we use list comprehensions, which
+provide a more concise way to generate lists. You can learn more about
+them reading <a href="https://docs.python.org/3/tutorial/datastructures.html#list-comprehensions" class="external-link">Python’s
+documentation on list comprehensions</a> or this <a href="https://www.programiz.com/python-programming/list-comprehension" class="external-link">short
+tutorial by Programiz</a>.</p>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1" aria-label="code-block-12-1"></a><span class="co"># Create the Selenium webdriver and make it headless</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1" aria-label="code-block-12-2"></a>options <span class="op">=</span> webdriver.ChromeOptions()</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1" aria-label="code-block-12-3"></a>options.add_argument(<span class="st">"--headless=new"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1" aria-label="code-block-12-4"></a>driver <span class="op">=</span> webdriver.Chrome(options<span class="op">=</span>options)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1" aria-label="code-block-12-5"></a></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1" aria-label="code-block-12-6"></a><span class="co"># Load the website. </span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1" aria-label="code-block-12-7"></a>driver.get(<span class="st">"https://www.scrapethissite.com/pages/ajax-javascript/"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1" aria-label="code-block-12-8"></a></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1" aria-label="code-block-12-9"></a><span class="co"># Find and click the 2015 button</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1" aria-label="code-block-12-10"></a>button_2015 <span class="op">=</span> driver.find_element(by<span class="op">=</span>By.ID, value<span class="op">=</span><span class="st">"2015"</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1" aria-label="code-block-12-11"></a>button_2015.click()</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1" aria-label="code-block-12-12"></a>sleep(<span class="dv">3</span>)</span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1" aria-label="code-block-12-13"></a></span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1" aria-label="code-block-12-14"></a><span class="co"># Get the post JavaScript execution HTML and close the webdriver</span></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1" aria-label="code-block-12-15"></a>html_2015 <span class="op">=</span> driver.page_source</span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1" aria-label="code-block-12-16"></a>driver.quit()</span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1" aria-label="code-block-12-17"></a></span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1" aria-label="code-block-12-18"></a><span class="co"># Parse HTML using BeautifulSoup and extract each column</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1" aria-label="code-block-12-19"></a><span class="co"># as a list of values using list comprehensions</span></span>
+<span id="cb12-20"><a href="#cb12-20" tabindex="-1" aria-label="code-block-12-20"></a>soup <span class="op">=</span> BeautifulSoup(html_2015, <span class="st">'html.parser'</span>)</span>
+<span id="cb12-21"><a href="#cb12-21" tabindex="-1" aria-label="code-block-12-21"></a>titles_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-title"</span>)]</span>
+<span id="cb12-22"><a href="#cb12-22" tabindex="-1" aria-label="code-block-12-22"></a>nominations_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-nominations"</span>)]</span>
+<span id="cb12-23"><a href="#cb12-23" tabindex="-1" aria-label="code-block-12-23"></a>awards_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-awards"</span>)]</span>
+<span id="cb12-24"><a href="#cb12-24" tabindex="-1" aria-label="code-block-12-24"></a></span>
+<span id="cb12-25"><a href="#cb12-25" tabindex="-1" aria-label="code-block-12-25"></a><span class="co"># For the best picture, we can't use .get_text() as there is no text</span></span>
+<span id="cb12-26"><a href="#cb12-26" tabindex="-1" aria-label="code-block-12-26"></a><span class="co"># Rather, we want to see if there is an &lt;i&gt; tag</span></span>
+<span id="cb12-27"><a href="#cb12-27" tabindex="-1" aria-label="code-block-12-27"></a>best_picture_lc <span class="op">=</span> [<span class="st">"No"</span> <span class="cf">if</span> elem.find(<span class="st">"i"</span>) <span class="op">==</span> <span class="va">None</span> <span class="cf">else</span> <span class="st">"Yes"</span> <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-best-picture"</span>)]</span>
+<span id="cb12-28"><a href="#cb12-28" tabindex="-1" aria-label="code-block-12-28"></a></span>
+<span id="cb12-29"><a href="#cb12-29" tabindex="-1" aria-label="code-block-12-29"></a><span class="co"># Create a dataframe based on the previous lists</span></span>
+<span id="cb12-30"><a href="#cb12-30" tabindex="-1" aria-label="code-block-12-30"></a>movies_2015 <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb12-31"><a href="#cb12-31" tabindex="-1" aria-label="code-block-12-31"></a>    {<span class="st">'titles'</span>: titles_lc, <span class="st">'nominations'</span>: nominations_lc, <span class="st">'awards'</span>: awards_lc, <span class="st">'best_picture'</span>: best_picture_lc}</span>
+<span id="cb12-32"><a href="#cb12-32" tabindex="-1" aria-label="code-block-12-32"></a>)</span></code></pre>
 </div>
 </div>
 </div>
@@ -1950,43 +1976,43 @@ a year and returns the HTML after the data loads, and another that takes
 this HTML, parses it, and extracts the data into a DataFrame.</p>
 <p>To let you observe how Selenium opens the browser and interacts with
 the page, this version does not use the “headless” option.</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1" aria-label="code-block-12-1"></a><span class="co"># Function to search year hyperlink and click it</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1" aria-label="code-block-12-2"></a><span class="kw">def</span> findyear_click_gethtml(year):</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1" aria-label="code-block-12-3"></a>    button <span class="op">=</span> driver.find_element(by<span class="op">=</span>By.ID, value<span class="op">=</span>year)</span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1" aria-label="code-block-12-4"></a>    button.click()</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1" aria-label="code-block-12-5"></a>    sleep(<span class="dv">3</span>)</span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1" aria-label="code-block-12-6"></a>    html <span class="op">=</span> driver.page_source</span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1" aria-label="code-block-12-7"></a>    <span class="cf">return</span> html</span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1" aria-label="code-block-12-8"></a></span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1" aria-label="code-block-12-9"></a><span class="co"># Function to parse html, extract table data, and assign year column</span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1" aria-label="code-block-12-10"></a><span class="kw">def</span> parsehtml_extractdata(html, year):</span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1" aria-label="code-block-12-11"></a>    soup <span class="op">=</span> BeautifulSoup(html, <span class="st">'html.parser'</span>)</span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1" aria-label="code-block-12-12"></a>    titles_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-title"</span>)]</span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1" aria-label="code-block-12-13"></a>    nominations_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-nominations"</span>)]</span>
-<span id="cb12-14"><a href="#cb12-14" tabindex="-1" aria-label="code-block-12-14"></a>    awards_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-awards"</span>)]</span>
-<span id="cb12-15"><a href="#cb12-15" tabindex="-1" aria-label="code-block-12-15"></a>    best_picture_lc <span class="op">=</span> [<span class="st">"No"</span> <span class="cf">if</span> elem.find(<span class="st">"i"</span>) <span class="op">==</span> <span class="va">None</span> <span class="cf">else</span> <span class="st">"Yes"</span> <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-best-picture"</span>)]</span>
-<span id="cb12-16"><a href="#cb12-16" tabindex="-1" aria-label="code-block-12-16"></a>    movies_df <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb12-17"><a href="#cb12-17" tabindex="-1" aria-label="code-block-12-17"></a>        {<span class="st">'titles'</span>: titles_lc, <span class="st">'nominations'</span>: nominations_lc, <span class="st">'awards'</span>: awards_lc, <span class="st">'best_picture'</span>: best_picture_lc, <span class="st">'year'</span>: year}</span>
-<span id="cb12-18"><a href="#cb12-18" tabindex="-1" aria-label="code-block-12-18"></a>    )</span>
-<span id="cb12-19"><a href="#cb12-19" tabindex="-1" aria-label="code-block-12-19"></a>    <span class="cf">return</span> movies_df</span>
-<span id="cb12-20"><a href="#cb12-20" tabindex="-1" aria-label="code-block-12-20"></a></span>
-<span id="cb12-21"><a href="#cb12-21" tabindex="-1" aria-label="code-block-12-21"></a><span class="co"># Open Selenium webdriver and go to the page</span></span>
-<span id="cb12-22"><a href="#cb12-22" tabindex="-1" aria-label="code-block-12-22"></a>driver <span class="op">=</span> webdriver.Chrome()</span>
-<span id="cb12-23"><a href="#cb12-23" tabindex="-1" aria-label="code-block-12-23"></a>driver.get(<span class="st">"https://www.scrapethissite.com/pages/ajax-javascript/"</span>)</span>
-<span id="cb12-24"><a href="#cb12-24" tabindex="-1" aria-label="code-block-12-24"></a></span>
-<span id="cb12-25"><a href="#cb12-25" tabindex="-1" aria-label="code-block-12-25"></a><span class="co"># Create empty dataframe where we will append/concatenate the dataframes we get for each year</span></span>
-<span id="cb12-26"><a href="#cb12-26" tabindex="-1" aria-label="code-block-12-26"></a>result_df <span class="op">=</span> pd.DataFrame()</span>
-<span id="cb12-27"><a href="#cb12-27" tabindex="-1" aria-label="code-block-12-27"></a></span>
-<span id="cb12-28"><a href="#cb12-28" tabindex="-1" aria-label="code-block-12-28"></a><span class="cf">for</span> year <span class="kw">in</span> [<span class="st">"2010"</span>, <span class="st">"2011"</span>, <span class="st">"2012"</span>, <span class="st">"2013"</span>, <span class="st">"2014"</span>, <span class="st">"2015"</span>]:</span>
-<span id="cb12-29"><a href="#cb12-29" tabindex="-1" aria-label="code-block-12-29"></a>    html_year <span class="op">=</span> findyear_click_gethtml(year)</span>
-<span id="cb12-30"><a href="#cb12-30" tabindex="-1" aria-label="code-block-12-30"></a>    df_year <span class="op">=</span> parsehtml_extractdata(html_year, year)</span>
-<span id="cb12-31"><a href="#cb12-31" tabindex="-1" aria-label="code-block-12-31"></a>    result_df <span class="op">=</span> pd.concat([result_df, df_year])</span>
-<span id="cb12-32"><a href="#cb12-32" tabindex="-1" aria-label="code-block-12-32"></a></span>
-<span id="cb12-33"><a href="#cb12-33" tabindex="-1" aria-label="code-block-12-33"></a><span class="co"># Close the browser that Selenium opened</span></span>
-<span id="cb12-34"><a href="#cb12-34" tabindex="-1" aria-label="code-block-12-34"></a>driver.quit()</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1" aria-label="code-block-13-1"></a><span class="co"># Function to search year hyperlink and click it</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1" aria-label="code-block-13-2"></a><span class="kw">def</span> findyear_click_gethtml(year):</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1" aria-label="code-block-13-3"></a>    button <span class="op">=</span> driver.find_element(by<span class="op">=</span>By.ID, value<span class="op">=</span>year)</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1" aria-label="code-block-13-4"></a>    button.click()</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1" aria-label="code-block-13-5"></a>    sleep(<span class="dv">3</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1" aria-label="code-block-13-6"></a>    html <span class="op">=</span> driver.page_source</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1" aria-label="code-block-13-7"></a>    <span class="cf">return</span> html</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1" aria-label="code-block-13-8"></a></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1" aria-label="code-block-13-9"></a><span class="co"># Function to parse html, extract table data, and assign year column</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1" aria-label="code-block-13-10"></a><span class="kw">def</span> parsehtml_extractdata(html, year):</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1" aria-label="code-block-13-11"></a>    soup <span class="op">=</span> BeautifulSoup(html, <span class="st">'html.parser'</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1" aria-label="code-block-13-12"></a>    titles_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-title"</span>)]</span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1" aria-label="code-block-13-13"></a>    nominations_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-nominations"</span>)]</span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1" aria-label="code-block-13-14"></a>    awards_lc <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-awards"</span>)]</span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1" aria-label="code-block-13-15"></a>    best_picture_lc <span class="op">=</span> [<span class="st">"No"</span> <span class="cf">if</span> elem.find(<span class="st">"i"</span>) <span class="op">==</span> <span class="va">None</span> <span class="cf">else</span> <span class="st">"Yes"</span> <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(class_<span class="op">=</span><span class="st">"film-best-picture"</span>)]</span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1" aria-label="code-block-13-16"></a>    movies_df <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1" aria-label="code-block-13-17"></a>        {<span class="st">'titles'</span>: titles_lc, <span class="st">'nominations'</span>: nominations_lc, <span class="st">'awards'</span>: awards_lc, <span class="st">'best_picture'</span>: best_picture_lc, <span class="st">'year'</span>: year}</span>
+<span id="cb13-18"><a href="#cb13-18" tabindex="-1" aria-label="code-block-13-18"></a>    )</span>
+<span id="cb13-19"><a href="#cb13-19" tabindex="-1" aria-label="code-block-13-19"></a>    <span class="cf">return</span> movies_df</span>
+<span id="cb13-20"><a href="#cb13-20" tabindex="-1" aria-label="code-block-13-20"></a></span>
+<span id="cb13-21"><a href="#cb13-21" tabindex="-1" aria-label="code-block-13-21"></a><span class="co"># Open Selenium webdriver and go to the page</span></span>
+<span id="cb13-22"><a href="#cb13-22" tabindex="-1" aria-label="code-block-13-22"></a>driver <span class="op">=</span> webdriver.Chrome()</span>
+<span id="cb13-23"><a href="#cb13-23" tabindex="-1" aria-label="code-block-13-23"></a>driver.get(<span class="st">"https://www.scrapethissite.com/pages/ajax-javascript/"</span>)</span>
+<span id="cb13-24"><a href="#cb13-24" tabindex="-1" aria-label="code-block-13-24"></a></span>
+<span id="cb13-25"><a href="#cb13-25" tabindex="-1" aria-label="code-block-13-25"></a><span class="co"># Create empty dataframe where we will append/concatenate the dataframes we get for each year</span></span>
+<span id="cb13-26"><a href="#cb13-26" tabindex="-1" aria-label="code-block-13-26"></a>result_df <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb13-27"><a href="#cb13-27" tabindex="-1" aria-label="code-block-13-27"></a></span>
+<span id="cb13-28"><a href="#cb13-28" tabindex="-1" aria-label="code-block-13-28"></a><span class="cf">for</span> year <span class="kw">in</span> [<span class="st">"2010"</span>, <span class="st">"2011"</span>, <span class="st">"2012"</span>, <span class="st">"2013"</span>, <span class="st">"2014"</span>, <span class="st">"2015"</span>]:</span>
+<span id="cb13-29"><a href="#cb13-29" tabindex="-1" aria-label="code-block-13-29"></a>    html_year <span class="op">=</span> findyear_click_gethtml(year)</span>
+<span id="cb13-30"><a href="#cb13-30" tabindex="-1" aria-label="code-block-13-30"></a>    df_year <span class="op">=</span> parsehtml_extractdata(html_year, year)</span>
+<span id="cb13-31"><a href="#cb13-31" tabindex="-1" aria-label="code-block-13-31"></a>    result_df <span class="op">=</span> pd.concat([result_df, df_year])</span>
+<span id="cb13-32"><a href="#cb13-32" tabindex="-1" aria-label="code-block-13-32"></a></span>
+<span id="cb13-33"><a href="#cb13-33" tabindex="-1" aria-label="code-block-13-33"></a><span class="co"># Close the browser that Selenium opened</span></span>
+<span id="cb13-34"><a href="#cb13-34" tabindex="-1" aria-label="code-block-13-34"></a>driver.quit()</span></code></pre>
 </div>
 </div>
 </div>
@@ -2038,51 +2064,51 @@ the class attribute <code>'product-name'</code>.</p></li>
 we can identify it using the attribute
 <code>'data-content'='product-price'</code>.</p></li>
 </ul>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1" aria-label="code-block-13-1"></a><span class="co"># Open Selenium webdriver in headless mode and go to the desired page</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1" aria-label="code-block-13-2"></a>options <span class="op">=</span> webdriver.ChromeOptions()</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1" aria-label="code-block-13-3"></a>options.add_argument(<span class="st">"--headless=new"</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1" aria-label="code-block-13-4"></a>driver <span class="op">=</span> webdriver.Chrome(options<span class="op">=</span>options)</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1" aria-label="code-block-13-5"></a>driver.get(<span class="st">"https://www.scrapingcourse.com/javascript-rendering"</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1" aria-label="code-block-13-6"></a></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1" aria-label="code-block-13-7"></a><span class="co"># As we don't have to click anything, just wait for the JavaScript to load, we can get the HTML right away</span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1" aria-label="code-block-13-8"></a>sleep(<span class="dv">3</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1" aria-label="code-block-13-9"></a>html <span class="op">=</span> driver.page_source</span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1" aria-label="code-block-13-10"></a></span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1" aria-label="code-block-13-11"></a><span class="co"># Parse the HTML</span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1" aria-label="code-block-13-12"></a>soup <span class="op">=</span> BeautifulSoup(html, <span class="st">'html.parser'</span>)</span>
-<span id="cb13-13"><a href="#cb13-13" tabindex="-1" aria-label="code-block-13-13"></a><span class="co"># Find all &lt;div&gt; elements that have a 'data-testid' attribute with the value of 'product-item'</span></span>
-<span id="cb13-14"><a href="#cb13-14" tabindex="-1" aria-label="code-block-13-14"></a>divs <span class="op">=</span> soup.find_all(<span class="st">"div"</span>, attrs <span class="op">=</span> {<span class="st">'data-testid'</span>: <span class="st">'product-item'</span>})</span>
-<span id="cb13-15"><a href="#cb13-15" tabindex="-1" aria-label="code-block-13-15"></a></span>
-<span id="cb13-16"><a href="#cb13-16" tabindex="-1" aria-label="code-block-13-16"></a><span class="co"># Loop through the &lt;div&gt; elements we found, and for each get the href,</span></span>
-<span id="cb13-17"><a href="#cb13-17" tabindex="-1" aria-label="code-block-13-17"></a><span class="co"># the name (inside a &lt;span&gt; element with attribute class="product-name")</span></span>
-<span id="cb13-18"><a href="#cb13-18" tabindex="-1" aria-label="code-block-13-18"></a><span class="co"># and the price (inside a &lt;span&gt; element with attribute data-content="product-price"</span></span>
-<span id="cb13-19"><a href="#cb13-19" tabindex="-1" aria-label="code-block-13-19"></a>list_of_dicts <span class="op">=</span> []</span>
-<span id="cb13-20"><a href="#cb13-20" tabindex="-1" aria-label="code-block-13-20"></a><span class="cf">for</span> div <span class="kw">in</span> divs:</span>
-<span id="cb13-21"><a href="#cb13-21" tabindex="-1" aria-label="code-block-13-21"></a>    <span class="co"># Create a dictionary to store the data we want for each product</span></span>
-<span id="cb13-22"><a href="#cb13-22" tabindex="-1" aria-label="code-block-13-22"></a>    item_dict <span class="op">=</span> {</span>
-<span id="cb13-23"><a href="#cb13-23" tabindex="-1" aria-label="code-block-13-23"></a>        <span class="st">'link'</span>: div.find(<span class="st">'a'</span>)[<span class="st">'href'</span>],</span>
-<span id="cb13-24"><a href="#cb13-24" tabindex="-1" aria-label="code-block-13-24"></a>        <span class="st">'name'</span>: div.find(<span class="st">'span'</span>, attrs <span class="op">=</span> {<span class="st">'class'</span>: <span class="st">'product-name'</span>}).get_text(),</span>
-<span id="cb13-25"><a href="#cb13-25" tabindex="-1" aria-label="code-block-13-25"></a>        <span class="st">'price'</span>: div.find(<span class="st">'span'</span>, attrs <span class="op">=</span> {<span class="st">'data-content'</span>: <span class="st">'product-price'</span>}).get_text()</span>
-<span id="cb13-26"><a href="#cb13-26" tabindex="-1" aria-label="code-block-13-26"></a>    }</span>
-<span id="cb13-27"><a href="#cb13-27" tabindex="-1" aria-label="code-block-13-27"></a>    list_of_dicts.append(item_dict)</span>
-<span id="cb13-28"><a href="#cb13-28" tabindex="-1" aria-label="code-block-13-28"></a></span>
-<span id="cb13-29"><a href="#cb13-29" tabindex="-1" aria-label="code-block-13-29"></a>all_products <span class="op">=</span> pd.DataFrame(list_of_dicts)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1" aria-label="code-block-14-1"></a><span class="co"># Open Selenium webdriver in headless mode and go to the desired page</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1" aria-label="code-block-14-2"></a>options <span class="op">=</span> webdriver.ChromeOptions()</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1" aria-label="code-block-14-3"></a>options.add_argument(<span class="st">"--headless=new"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1" aria-label="code-block-14-4"></a>driver <span class="op">=</span> webdriver.Chrome(options<span class="op">=</span>options)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1" aria-label="code-block-14-5"></a>driver.get(<span class="st">"https://www.scrapingcourse.com/javascript-rendering"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1" aria-label="code-block-14-6"></a></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1" aria-label="code-block-14-7"></a><span class="co"># As we don't have to click anything, just wait for the JavaScript to load, we can get the HTML right away</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1" aria-label="code-block-14-8"></a>sleep(<span class="dv">3</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1" aria-label="code-block-14-9"></a>html <span class="op">=</span> driver.page_source</span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1" aria-label="code-block-14-10"></a></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1" aria-label="code-block-14-11"></a><span class="co"># Parse the HTML</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1" aria-label="code-block-14-12"></a>soup <span class="op">=</span> BeautifulSoup(html, <span class="st">'html.parser'</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1" aria-label="code-block-14-13"></a><span class="co"># Find all &lt;div&gt; elements that have a 'data-testid' attribute with the value of 'product-item'</span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1" aria-label="code-block-14-14"></a>divs <span class="op">=</span> soup.find_all(<span class="st">"div"</span>, attrs <span class="op">=</span> {<span class="st">'data-testid'</span>: <span class="st">'product-item'</span>})</span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1" aria-label="code-block-14-15"></a></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1" aria-label="code-block-14-16"></a><span class="co"># Loop through the &lt;div&gt; elements we found, and for each get the href,</span></span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1" aria-label="code-block-14-17"></a><span class="co"># the name (inside a &lt;span&gt; element with attribute class="product-name")</span></span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1" aria-label="code-block-14-18"></a><span class="co"># and the price (inside a &lt;span&gt; element with attribute data-content="product-price"</span></span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1" aria-label="code-block-14-19"></a>list_of_dicts <span class="op">=</span> []</span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1" aria-label="code-block-14-20"></a><span class="cf">for</span> div <span class="kw">in</span> divs:</span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1" aria-label="code-block-14-21"></a>    <span class="co"># Create a dictionary to store the data we want for each product</span></span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1" aria-label="code-block-14-22"></a>    item_dict <span class="op">=</span> {</span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1" aria-label="code-block-14-23"></a>        <span class="st">'link'</span>: div.find(<span class="st">'a'</span>)[<span class="st">'href'</span>],</span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1" aria-label="code-block-14-24"></a>        <span class="st">'name'</span>: div.find(<span class="st">'span'</span>, attrs <span class="op">=</span> {<span class="st">'class'</span>: <span class="st">'product-name'</span>}).get_text(),</span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1" aria-label="code-block-14-25"></a>        <span class="st">'price'</span>: div.find(<span class="st">'span'</span>, attrs <span class="op">=</span> {<span class="st">'data-content'</span>: <span class="st">'product-price'</span>}).get_text()</span>
+<span id="cb14-26"><a href="#cb14-26" tabindex="-1" aria-label="code-block-14-26"></a>    }</span>
+<span id="cb14-27"><a href="#cb14-27" tabindex="-1" aria-label="code-block-14-27"></a>    list_of_dicts.append(item_dict)</span>
+<span id="cb14-28"><a href="#cb14-28" tabindex="-1" aria-label="code-block-14-28"></a></span>
+<span id="cb14-29"><a href="#cb14-29" tabindex="-1" aria-label="code-block-14-29"></a>all_products <span class="op">=</span> pd.DataFrame(list_of_dicts)</span></code></pre>
 </div>
 <p>We could arrive to the same result if we replace the for loop with
 list comprehensions. So here is another possible solution with that
 approach.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1" aria-label="code-block-14-1"></a>links <span class="op">=</span> [elem[<span class="st">'href'</span>] <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(<span class="st">'a'</span>, attrs <span class="op">=</span> {<span class="st">'class'</span>: <span class="st">'product-link'</span>})]</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1" aria-label="code-block-14-2"></a>names <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(<span class="st">'span'</span>, attrs <span class="op">=</span> {<span class="st">'class'</span>: <span class="st">'product-name'</span>})]</span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1" aria-label="code-block-14-3"></a>prices <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(<span class="st">'span'</span>, attrs <span class="op">=</span> {<span class="st">'data-content'</span>: <span class="st">'product-price'</span>})]</span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1" aria-label="code-block-14-4"></a>all_products_v2 <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1" aria-label="code-block-14-5"></a>    {<span class="st">'link'</span>: links, <span class="st">'name'</span>: names, <span class="st">'price'</span>: prices}</span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1" aria-label="code-block-14-6"></a>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1" aria-label="code-block-15-1"></a>links <span class="op">=</span> [elem[<span class="st">'href'</span>] <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(<span class="st">'a'</span>, attrs <span class="op">=</span> {<span class="st">'class'</span>: <span class="st">'product-link'</span>})]</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1" aria-label="code-block-15-2"></a>names <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(<span class="st">'span'</span>, attrs <span class="op">=</span> {<span class="st">'class'</span>: <span class="st">'product-name'</span>})]</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1" aria-label="code-block-15-3"></a>prices <span class="op">=</span> [elem.get_text() <span class="cf">for</span> elem <span class="kw">in</span> soup.find_all(<span class="st">'span'</span>, attrs <span class="op">=</span> {<span class="st">'data-content'</span>: <span class="st">'product-price'</span>})]</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1" aria-label="code-block-15-4"></a>all_products_v2 <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1" aria-label="code-block-15-5"></a>    {<span class="st">'link'</span>: links, <span class="st">'name'</span>: names, <span class="st">'price'</span>: prices}</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1" aria-label="code-block-15-6"></a>)</span></code></pre>
 </div>
 </div>
 </div>
@@ -2270,7 +2296,7 @@ works (e.g. much archival material) may last for much longer.</p>
   UK: Duration of Copyright
   </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
 <div class="accordion-body">
 <ul>
 <li>For most published items copyright lasts until the end of the 70th
@@ -2294,7 +2320,7 @@ duration of copyright for a range of works.</p>
   US: Duration of Copyright
   </h3>
 </button>
-<div id="collapseSpoiler2" class="accordion-collapse collapse" aria-labelledby="headingSpoiler2" data-bs-parent="#accordionSpoiler2">
+<div id="collapseSpoiler2" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler2" aria-labelledby="headingSpoiler2">
 <div class="accordion-body">
 <ul>
 <li>For works created on or after January 1, 1978, copyright lasts for
@@ -2345,7 +2371,7 @@ these exceptions vary significantly between jurisdictions.</p>
   UK: Copyright Exceptions
   </h3>
 </button>
-<div id="collapseSpoiler3" class="accordion-collapse collapse" aria-labelledby="headingSpoiler3" data-bs-parent="#accordionSpoiler3">
+<div id="collapseSpoiler3" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler3" aria-labelledby="headingSpoiler3">
 <div class="accordion-body">
 <p>UK law (the Copyright, Designs and Patents Act 1988) provides a
 number of legal exceptions. One key exception relevant to web scraping
@@ -2363,7 +2389,7 @@ is the exception for non-commercial research of text and data analysis
   US: Copyright Exceptions (Fair Use)
   </h3>
 </button>
-<div id="collapseSpoiler4" class="accordion-collapse collapse" aria-labelledby="headingSpoiler4" data-bs-parent="#accordionSpoiler4">
+<div id="collapseSpoiler4" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler4" aria-labelledby="headingSpoiler4">
 <div class="accordion-body">
 <p>In the United States, the primary copyright exception is the doctrine
 of <strong>Fair Use</strong> (17 USC Section 107). Fair Use is evaluated
@@ -2417,7 +2443,7 @@ in-copyright.</p>
   UK: Non-commercial Research Text and Data Analysis Exception
   </h3>
 </button>
-<div id="collapseSpoiler5" class="accordion-collapse collapse" aria-labelledby="headingSpoiler5" data-bs-parent="#accordionSpoiler5">
+<div id="collapseSpoiler5" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler5" aria-labelledby="headingSpoiler5">
 <div class="accordion-body">
 <p>The UK provides a specific exception that allows you to copy items to
 bring together a corpus of materials for computational analysis if it
@@ -2450,7 +2476,7 @@ to seek permissions.</p>
   US: Fair Use and Text/Data Mining
   </h3>
 </button>
-<div id="collapseSpoiler6" class="accordion-collapse collapse" aria-labelledby="headingSpoiler6" data-bs-parent="#accordionSpoiler6">
+<div id="collapseSpoiler6" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler6" aria-labelledby="headingSpoiler6">
 <div class="accordion-body">
 <p>In the US, text and data mining for research purposes may qualify as
 fair use, particularly if the use is transformative (i.e. you are
@@ -2507,7 +2533,7 @@ CAPTCHA to scrape a service.</p>
   UK: Computer Misuse Act 1990
   </h3>
 </button>
-<div id="collapseSpoiler7" class="accordion-collapse collapse" aria-labelledby="headingSpoiler7" data-bs-parent="#accordionSpoiler7">
+<div id="collapseSpoiler7" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler7" aria-labelledby="headingSpoiler7">
 <div class="accordion-body">
 <p>The Computer Misuse Act 1990 makes it a criminal offence to access
 data or a computer programme without authorisation. This was aimed at
@@ -2526,7 +2552,7 @@ scrape a service.</p>
   US: Computer Fraud and Abuse Act (CFAA)
   </h3>
 </button>
-<div id="collapseSpoiler8" class="accordion-collapse collapse" aria-labelledby="headingSpoiler8" data-bs-parent="#accordionSpoiler8">
+<div id="collapseSpoiler8" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler8" aria-labelledby="headingSpoiler8">
 <div class="accordion-body">
 <p>The Computer Fraud and Abuse Act (CFAA) is the primary federal
 anti-hacking law in the United States. It makes it illegal to access a
@@ -2581,7 +2607,7 @@ database in obtaining and verifying data from independent sources.</p>
   UK: Database Rights (Sui Generis)
   </h3>
 </button>
-<div id="collapseSpoiler9" class="accordion-collapse collapse" aria-labelledby="headingSpoiler9" data-bs-parent="#accordionSpoiler9">
+<div id="collapseSpoiler9" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler9" aria-labelledby="headingSpoiler9">
 <div class="accordion-body">
 <p>Database rights in the UK (derived from EU law) protect the
 substantial investment someone may have made to create their database in
@@ -2603,7 +2629,7 @@ were to harm them economically e.g. by creating a competing product.</p>
   US: No Sui Generis Database Right
   </h3>
 </button>
-<div id="collapseSpoiler10" class="accordion-collapse collapse" aria-labelledby="headingSpoiler10" data-bs-parent="#accordionSpoiler10">
+<div id="collapseSpoiler10" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler10" aria-labelledby="headingSpoiler10">
 <div class="accordion-body">
 <p>The United States does not have a sui generis database right like the
 UK/EU. However, databases may still be protected under copyright if the
@@ -2637,7 +2663,7 @@ registers.</p>
   UK: Data Protection (UK GDPR)
   </h3>
 </button>
-<div id="collapseSpoiler11" class="accordion-collapse collapse" aria-labelledby="headingSpoiler11" data-bs-parent="#accordionSpoiler11">
+<div id="collapseSpoiler11" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler11" aria-labelledby="headingSpoiler11">
 <div class="accordion-body">
 <p>In the UK, the fact that someone’s personal data may be publicly
 available does not mean that you can just re-use that information
@@ -2662,7 +2688,7 @@ someone’s personal data.</p>
   US: Data Privacy
   </h3>
 </button>
-<div id="collapseSpoiler12" class="accordion-collapse collapse" aria-labelledby="headingSpoiler12" data-bs-parent="#accordionSpoiler12">
+<div id="collapseSpoiler12" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler12" aria-labelledby="headingSpoiler12">
 <div class="accordion-body">
 <p>The United States does not have a single comprehensive federal data
 protection law equivalent to the UK GDPR. Instead, data privacy is
@@ -2746,9 +2772,9 @@ help clarify straight away what you can and cannot do with the data.</p>
 </section><section><h2 class="section-heading" id="further-help">Further help<a class="anchor" aria-label="anchor" href="#further-help"></a>
 </h2>
 <hr class="half-width">
-<p>If you are affiliated with an institution or university, check with
-your institutional library or copyright office for further guidance on
-copyright, text and data mining, and licensing agreements.</p>
+<p>More information about copyright and text and data mining can be
+found on the University’s <a href="https://intranet.birmingham.ac.uk/student/libraries/copyright/researchers/index.aspx" class="external-link">Copyright
+for researchers pages</a>.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>

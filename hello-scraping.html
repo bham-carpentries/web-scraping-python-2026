@@ -304,7 +304,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Hello-Scraping</h1>
-        <p>Last updated on 2026-09-08 |
+        <p>Last updated on 2026-09-17 |
 
         <a href="https://github.com/carpentries-incubator/web-scraping-python/edit/main/episodes/hello-scraping.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -481,6 +481,7 @@ package along with Pandas.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1" aria-label="code-block-2-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1" aria-label="code-block-2-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span></code></pre>
 </div>
+
 <p>Let’s store the HTML content in a string variable named
 <code>example_html</code>.</p>
 <div class="codewrapper sourceCode" id="cb3">
@@ -515,6 +516,7 @@ structure —similar to the tree structure we discussed earlier. Using the
 <code>.prettify()</code> method on this object displays the HTML with
 indentation that reflects its nested structure, making it easier to
 read.</p>
+
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -580,6 +582,7 @@ search the tag that we specify, and return the entire element, including
 the starting and closing tags.</p></li>
 </ul><p>Below, you’ll see examples of how these commands work with our simple
 website.</p>
+
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -632,6 +635,7 @@ two hyperlinks, and we could extract them in a list using the
 [&lt;a href="https://carpentries.org/"&gt;The Carpentries homepage&lt;/a&gt;, &lt;a href="https://carpentries.org/workshops/past-workshops/"&gt;past workshops&lt;/a&gt;]
 </code></pre>
 </div>
+
 <p>To access the value of a given attribute in an element, for example
 the value of the <code>href</code> attribute in
 <code>&lt;a href=""&gt;</code>, we would use the <code>.get()</code>
@@ -678,7 +682,7 @@ HTML of our example.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>One way of completing the exercise is as follows.</p>
 <div class="codewrapper sourceCode" id="cb13">
@@ -711,6 +715,8 @@ up a dictionary of results step by step.</p>
 </div>
 </div>
 </div>
+
+
 <p>To wrap up this introduction to HTML and BeautifulSoup, let’s write
 code that extracts all hyperlink elements in a structured way —capturing
 each link’s tag, destination URL, and display text.</p>
@@ -721,20 +727,20 @@ dictionary, and append each dictionary to a list called
 <code>link_info_list</code>. At the end, we’ll have a list containing
 two dictionaries —one for each link— which we can easily convert into a
 Pandas DataFrame.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1" aria-label="code-block-15-1"></a>links <span class="op">=</span> soup.find_all(<span class="st">'a'</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1" aria-label="code-block-15-2"></a>link_info_list <span class="op">=</span> []</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1" aria-label="code-block-15-3"></a><span class="cf">for</span> link <span class="kw">in</span> links:</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1" aria-label="code-block-15-4"></a>    dict_a <span class="op">=</span> {}</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1" aria-label="code-block-15-5"></a>    dict_a[<span class="st">'element'</span>] <span class="op">=</span> <span class="bu">str</span>(link)</span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1" aria-label="code-block-15-6"></a>    dict_a[<span class="st">'url'</span>] <span class="op">=</span> link.get(<span class="st">'href'</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1" aria-label="code-block-15-7"></a>    dict_a[<span class="st">'text'</span>] <span class="op">=</span> link.get_text()</span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1" aria-label="code-block-15-8"></a>    link_info_list.append(dict_a)</span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1" aria-label="code-block-15-9"></a></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1" aria-label="code-block-15-10"></a>links_df <span class="op">=</span> pd.DataFrame(link_info_list)</span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1" aria-label="code-block-15-11"></a><span class="bu">print</span>(links_df)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1" aria-label="code-block-16-1"></a>links <span class="op">=</span> soup.find_all(<span class="st">'a'</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1" aria-label="code-block-16-2"></a>link_info_list <span class="op">=</span> []</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1" aria-label="code-block-16-3"></a><span class="cf">for</span> link <span class="kw">in</span> links:</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1" aria-label="code-block-16-4"></a>    dict_a <span class="op">=</span> {}</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1" aria-label="code-block-16-5"></a>    dict_a[<span class="st">'element'</span>] <span class="op">=</span> <span class="bu">str</span>(link)</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1" aria-label="code-block-16-6"></a>    dict_a[<span class="st">'url'</span>] <span class="op">=</span> link.get(<span class="st">'href'</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1" aria-label="code-block-16-7"></a>    dict_a[<span class="st">'text'</span>] <span class="op">=</span> link.get_text()</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1" aria-label="code-block-16-8"></a>    link_info_list.append(dict_a)</span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1" aria-label="code-block-16-9"></a></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1" aria-label="code-block-16-10"></a>links_df <span class="op">=</span> pd.DataFrame(link_info_list)</span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1" aria-label="code-block-16-11"></a><span class="bu">print</span>(links_df)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -743,15 +749,17 @@ Pandas DataFrame.</p>
 0  &lt;a href="https://carpentries.org/"&gt;The Carpent...                           https://carpentries.org/  The Carpentries homepage
 1  &lt;a href="https://carpentries.org/workshops/pas...  https://carpentries.org/workshops/past-workshops/            past workshops</code></pre>
 </div>
+
 <p>The dataframe can also be exported as, for example, a .csv file</p>
-<div class="codewrapper sourceCode" id="cb17">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1" aria-label="code-block-17-1"></a>links_df.to_csv(<span class="st">'OutputCSV.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1" aria-label="code-block-18-1"></a>links_df.to_csv(<span class="st">'OutputCSV.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre>
 </div>
 <p>You can find more detailed information about the BeautifulSoup
 package and its full range of methods in the <a href="https://beautiful-soup-4.readthedocs.io/en/latest/" class="external-link">BeautifulSoup
 Documentation</a>.</p>
+
 </section><section><h2 class="section-heading" id="the-rights-wrongs-and-legal-barriers-to-scraping">The rights, wrongs, and legal barriers to scraping<a class="anchor" aria-label="anchor" href="#the-rights-wrongs-and-legal-barriers-to-scraping"></a></h2>
 <hr class="half-width"><p>The internet isn’t as open as it once was. What used to be a vast,
 freely accessible source of information has become a valuable reservoir
@@ -891,7 +899,7 @@ any links that you are not going to use.
   "url": "https://carpentries-incubator.github.io/web-scraping-python/hello-scraping.html",
   "identifier": "https://carpentries-incubator.github.io/web-scraping-python/hello-scraping.html",
   "dateCreated": "2024-09-23",
-  "dateModified": "2026-09-08",
+  "dateModified": "2026-09-17",
   "datePublished": "2026-09-17"
 }
 
