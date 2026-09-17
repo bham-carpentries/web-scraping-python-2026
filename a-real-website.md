@@ -34,6 +34,17 @@ In fact, for the example we’re about to explore, The Carpentries provides a [l
 In the previous episode we used a simple HTML document, not an actual website.
 Now that we’re moving into a more realistic and complex scenario, we’ll add another tool to our toolbox: the `requests` package.
 
+:::::::::::::::::::::::::::::::::: instructor
+
+- Using 'requests' package
+- Load package
+- Get url:  **.get(url)**
+- Get html content:   **.text**
+- [tqdm](https://tqdm.github.io/) is a Progress Bar library
+- regex: \\s\* means 0 or more spaces
+
+:::::::::::::::::::::::::::::::::::::::::::::
+
 For this lesson, we’ll use `requests` solely to retrieve the HTML content of a website.
 Keep in mind that `requests` offers much more functionality, which you can explore in the [Requests package documentation](https://requests.readthedocs.io/en/latest/).
 
@@ -69,6 +80,16 @@ print(cleaned_req[0:1000])
 <!doctype html><html class=scroll-smooth lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width"><title>Upcoming workshops | The Carpentries</title><link rel=preconnect href=https://fonts.googleapis.com><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel=stylesheet><script defer src=https://cdn.jsdelivr.net/npm/@glidejs/glide@3.5.x></script><script src=https://kit.fontawesome.com/3a6fac633d.js crossorigin=anonymous></script><link rel=stylesheet href=https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css><script src=https://code.jquery.com/jquery-3.7.1.min.js></script><script src=https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js></script><script src=https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js></script><script src=https://cdn.datatables.net/plug-ins/1.13.6/sorting/datetime-moment.js></script><sc
 ```
 
+::::::::::::::::::::::::::::::::::::: instructor
+
+- Truncated so not too long
+- Point out **meta**, **link** and **script** tags
+
+- Look at Upcoming webpage
+- Look at source code
+
+::::::::::::::::::::::::::::::::::::::::::::::::
+
 We truncated the output to show only the first 1000 characters of the document, as it’s too long to display fully.
 Still, we can confirm it’s HTML and notice some elements that weren’t present in the earlier example, such as `<meta>`, `<link>` and `<script>` tags.
 
@@ -77,6 +98,15 @@ In Google Chrome, you can right-click anywhere on the page (on a Mac, hold the C
 If you don’t see that option, try clicking elsewhere on the page. A new tab will open showing the full HTML document for the site you were viewing.
 
 ![](fig/view_page_source.png){alt="A screenshot of The Carpentries upcoming workshops website in the Google Chrome web browser, showing how to View page source"}
+
+:::::::::::::::::::::::::::::::::::::: instructor
+
+- Difficult to find things
+- Search for "Upcoming workshops"
+- Take a look - difficult to work out
+- Show 'Inspect'
+
+:::::::::::::::::::::::::::::::::::::::::::::::::
 
 In the HTML page source in your browser, you can scroll down to find the first-level header (`<h1>`) with the text “Upcoming workshops.”
 An easier way is to use the Find bar (press Ctrl + F on Windows or Command + F on Mac) and search for “Upcoming workshops.”
@@ -100,6 +130,18 @@ Using the Inspect feature opens DevTools on the side of your browser.
 DevTools offers a suite of tools for inspecting, debugging, and analyzing web pages in real-time.
 For this workshop, we’ll focus on just one: the "Elements" tab.
 
+:::::::::::::::::::::::::::::::::::::::::::::: instructor
+
+- Inspect first workshop location
+- Show **a** tag
+- Show surrounding tags - contained in h3
+- Show expand **div** tags
+- Locate next location link
+
+- Use BeautifulSoup to parse html
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 If you selected the organization name to inspect (as shown in the screenshot), you'll see an anchor (`<a>`) element highlighted in the Elements tab.
 Around it, as its parent, you’ll find a third-level header marked by `<h3>` tags.
 This provides a visual example of the tree-like structure we discussed earlier, elements nested inside other elements.
@@ -108,6 +150,13 @@ Back in our code, we left off after retrieving the HTML behind the website using
 
 Now, we can use the `BeautifulSoup()` function to parse that HTML, just like we did before.
 The code below shows how we create the soup object and use `.find_all()` to locate all the third-level headers (`<h3>`) in the page.
+
+::::::::::::::::::::::::::::::::::::: instructor
+
+- Use find_all to get **h3** tags
+- enumerate() function adds a counter to each item in a list or any other iterable, and returns a list of tuples containing the index position and the element for each element of the iterable. 
+
+::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```python
 # Parsing the HTML with BeautifulSoup
@@ -124,6 +173,13 @@ Besides searching elements by tag, it’s often useful to search using attribute
 In our case, we can see the `h3` elements have a class attribute with multiple values: "title text-base md:text-[1.75rem] leading-[2.125rem] font-semibold".
 This set of classes is used to apply styling, and it can help us target all elements that share the same formatting.
 
+::::::::::::::::::::::::::::::: instructor
+
+- Sometimes useful to search by class
+- May allow more specific selection
+
+::::::::::::::::::::::::::::::::::::::::::
+
 So instead of selecting all `<h3>` tags directly, we can search for elements with this specific class using the `class_` argument of `.find_all()`, like this:
 
 ```python
@@ -134,6 +190,19 @@ h3_by_class = soup.find_all(class_="title text-base md:text-[1.75rem] leading-[2
 This will give us the same elements as before, but demonstrates how to refine your search by class —an especially useful technique when different parts of a webpage use the same tag but serve different purposes.
 
 ## Extracting data
+
+:::::::::::::::::::::::::::::::::: instructor
+
+- Get students to look for parent of first h3 tag
+
+- Demonstrate hovering over elements
+- Demonstrate collapsing elements
+
+- **Important** Understanding tree structure
+
+- parent div has class attribute **p-8 mb-5 border**
+
+:::::::::::::::::::::::::::::::::::::::::::::
 
 Let’s go back to our web browser. Using the "Inspect" tool, can you identify the parent of the first `<h3>` element?
 
@@ -150,6 +219,13 @@ Understanding the tree structure of the HTML will help us navigate it and extrac
 Navigating this tree is also something we can do with BeautifulSoup.
 For example, let’s find the parent of the first `<h3>` element using the `.parent` property.
 As expected, this will return the `<div>` element with the class attribute "p-8 mb-5 border".
+
+::::::::::::::::::::::::::::::::::: instructor
+
+- Show code below with **print(firsth3_parent)** first
+- Then prettify
+
+:::::::::::::::::::::::::::::::::::::::::::::::
 
 ```python
 # Get the parent of the first h3 element and prettify it
@@ -217,6 +293,16 @@ Remember, the output shown here is probably different than yours, as the website
 
 Taking a careful look, we can start to detect where the information we want is located and how to extract it in a structured way.
 
+::::::::::::::::::::::::::::::: instructor
+
+- Examine output
+- h3 gives link to workshop website
+- Also get extra info - date, format, country etc
+
+- Can start to extract more information
+
+::::::::::::::::::::::::::::::::::::::::::
+
 We already know the workshop host organization is inside the `<h3>` element, and from there we can also get the hyperlink to that specific workshop’s website.
 Within the parent `<div>`, we can extract additional details such as the curriculum, country, format (in-person or online), and program (Software Carpentry, Data Carpentry, Library Carpentry, The Carpentries).
 
@@ -232,6 +318,16 @@ dict_workshop['country'] = firsth3_parent.get('data-country')
 dict_workshop['format'] = firsth3_parent.get('data-meeting')
 dict_workshop['program'] = firsth3_parent.get('data-program')
 ```
+
+:::::::::::::::::::::::::::::::::::: instructor
+- Show dict_workshop
+
+- Ask - what if we want to find the information for all of the workshops? 
+
+- Reuse code for dict_workshop
+    - change firsth3_parent to item when reuse
+
+:::::::::::::::::::::::::::::::::::::::::::::::
 
 Ok, that's the code for extracting information about the first workshop listed, but what about all other workshops?
 Loop time!
@@ -263,6 +359,12 @@ Be aware that there are multiple ways of achieving the same result.
 For example, instead of finding the `div` elements with the "p-8 mb-5 border" class attribute, we can find the container of all the workshops, a `div` with a class attribute of "filtered".
 Then, we can use a while loop across all its children, each of these being one workshop container.
 The rest of the code would be the same.
+
+:::::::::::::::::::::::::::::::::::: instructor
+
+- For timing, will probably need to skip Challenges
+
+:::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::::::::::::: spoiler
 ### Alternative code
@@ -377,6 +479,18 @@ This avoids the code to show an error if the instructors or helpers are not list
 
 ## Automating data collection
 
+::::::::::::::::::::::::::::::::::::::::::: instructor
+- All data so far taken from single page
+- Information might be across several pages
+- May need to follow hyperlinks
+
+- Can loop using request for each link & parse with BeautifulSoup
+
+- **Beware** of sending too many requests & overloading web server
+- Use **sleep()** function to wait
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 Until now, we've only scraped one website page at a time.
 However, sometimes the information you need is spread across multiple pages, or you may need to follow a trail of hyperlinks.
 With the tools we've learned so far, handling this task is straightforward.
@@ -395,6 +509,16 @@ print('First')
 sleep(5)
 print('Second')
 ```
+
+::::::::::::::::::::::::::::::::::::::::: instructor
+
+- Now extract information from each workshop's website
+- Use links in the 'upcomingworkshops_df' DataFrame
+
+- Use link to first workshop
+- df.loc - access group of rows and cols by label or boolean array
+::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 Let’s incorporate this important principle as we extract additional information from each workshop’s individual website.
 We already have our `upcomingworkshops_df` DataFrame, which includes a `link` column containing the URL for each workshop’s webpage.
 For example, let’s make a request to retrieve the HTML of the first workshop in the DataFrame and take a look.
@@ -411,6 +535,17 @@ cleaned_req = re.sub(r'\s*\n\s*', '', req).strip()
 # Parse the HTML
 soup = BeautifulSoup(cleaned_req, 'html.parser')
 ```
+
+:::::::::::::::::::::::::::::::::::::::::: instructor
+- Follow link to first page
+- View source
+- Information in 'head' not displayed directly on page
+- 'meta' tag - metadata - used by search engines
+    - contains useful information
+
+- Extract metadata for first 5 websites
+- View dataframe in property inspector
+:::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 If we explore the HTML using the 'View page source' or 'Inspect' tools in the browser, we notice something interesting inside the `<head>` element.
 Because this information is within `<head>` rather than the `<body>`, it won’t be displayed directly on the page, but the `<meta>` elements provide metadata that helps search engines better understand, display, and index the page.
@@ -468,6 +603,17 @@ This is known as a 404 error, which means the requested page cannot be found on 
 How would you approach handling this kind of error to make your scraping process more robust?
 
 :::::::::::::::::::::::: solution
+
+::::::::::::::::::::::::::::::::::::::::: instructor
+
+- May get error if web page is unavailable
+- requests returns value
+    - 404 if unavailable
+    - 200 if found
+
+- Show test for code
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 A straightforward Pythonic way to handle errors when accessing URLs is to use a [try-except block](https://docs.python.org/3/tutorial/errors.html).
 This allows you to catch any exceptions that occur when trying to access a URL, ignore the problematic URL, and continue processing the rest.
