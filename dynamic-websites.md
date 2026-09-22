@@ -19,20 +19,6 @@ exercises: 15
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::: instructor
-
-- Go to films website
-- Select 2015
-- View page source
-- Can you find 'Spotlight'?
-- JavaScript used to load instructions dynamically
-
-- Use Inspect to look at Spotlight
-- Requests package only accesses original html
-- Need Selenium package
-
-:::::::::::::::::::::::::::::::::::::::::::::
-
 Visit this practice webpage created by Hartley Brody for learning and practicing web scraping:  [https://www.scrapethissite.com/pages/ajax-javascript/](https://www.scrapethissite.com/pages/ajax-javascript/) (but first, read the [terms of use](https://www.scrapethissite.com/faq/)).
 Select “2015” to display that year’s Oscar-winning films.
 Now try viewing the HTML behind the page, either using the View Page Source tool in your browser or by using Python with the requests and BeautifulSoup packages, as we’ve learned.
@@ -56,18 +42,6 @@ To scrape content that is generated dynamically by JavaScript, we’ll use a dif
 
 ## Using Selenium to scrape dynamic websites
 
-::::::::::::::::::::::::::::::::::: instructor
-
-- Selenium
-    - for web browser automation
-    - behaves like real user, interacting with web page in browser
-    - renders web page, loading dynamic content
-    - access full html after JavaScript executed
-    - can also simulate interactions - e.g. clicking buttons
-    - compare to using Web Scraper extension and seeing the web pages etc
-    
-::::::::::::::::::::::::::::::::::::::::::::::
-
 [Selenium](https://www.selenium.dev/) is an open-source project for web browser automation.
 It’s especially useful for scraping tasks because it behaves like a real user interacting with a web page in a browser.
 
@@ -81,13 +55,6 @@ To get started, we’ll load the `webdriver` and `By` components from the seleni
 - `webdriver` lets us launch or simulate a web browser and interact with it through code.
 
 - `By` helps us specify how we want to locate elements in the HTML, by tag name (`By.TAG_NAME`), class (`By.CLASS_NAME`), ID (`By.ID`), name (`By.NAME`), and more.
-
-:::::::::::::::::::::::::::::::: instructor
-
-- webdriver - launch, simulate and interact with web brower through code
-- By - how locate elements
-
-:::::::::::::::::::::::::::::::::::::::::::
 
 We’ll also continue using the other packages introduced in the previous episode.
 
@@ -105,15 +72,6 @@ For now, we’ll use Chrome.
 When you run the following line of code, a new Google Chrome window will open.
 Don’t close it, this is the browser that Selenium is controlling to interact with the webpage.
 
-:::::::::::::::::::::::::::::::: instructor
-
-- Selenium works with other browsers too
-- Chrome window will open **don't close**
-    - may need to open from bottom toolbar
-    - Split window to see both
-
-:::::::::::::::::::::::::::::::::::::::::::
-
 Later in the lesson, we’ll learn how to run headless browser sessions.
 Headless means the browser runs in the background without opening a visible window or user interface, which is useful for automation tasks and running scripts on servers.
 To direct the browser to the Oscar winners page, use the `.get()` method on the `driver` object we just created.
@@ -125,14 +83,6 @@ driver = webdriver.Chrome()
 # Go to a specific website
 driver.get("https://www.scrapethissite.com/pages/ajax-javascript/")
 ```
-
-:::::::::::::::::::::::::::::::: instructor
-
-- **Slide** find instructions
-- Inspect to find 2015 tag
-- id should be unique so use that
-
-:::::::::::::::::::::::::::::::::::::::::::
 
 How can we direct Selenium to click the "2015" text so the table for that year appears?
 First, we need to locate that element, similar to how we used `.find()` and `.find_all()` with BeautifulSoup.
@@ -164,15 +114,6 @@ Because the `id` attribute is unique, we can select this element directly using:
 button_2015 = driver.find_element(by=By.ID, value="2015")
 ```
 
-::::::::::::::::::::::::::::::::::::::: instructor
-
-- use .click() method to interact with button
-- pause using sleep to give time to load table
-- get page source
-- close
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 We’ve located the hyperlink element we need to click to display the table for that year, and we’ll use the `.click()` method to interact with it.
 Since the table takes a couple of seconds to load, we’ll use the `sleep()` function to pause while the JavaScript runs and the table loads.
 Next, we’ll use driver.page_source to retrieve the updated HTML content from the website and store it in a variable called `html_2015`.
@@ -194,24 +135,6 @@ driver.quit()
 
 Importantly, the HTML document we stored in `html_2015` **is the HTML after the dynamic content loaded**.
 This content wasn’t present in the original HTML and wouldn't be accessible if we had used the requests package alone.
-
-:::::::::::::::::::::::::::: instructor
-
-- html_2015 contains dynamically loaded html
-- could use Selenium's find_element()
-    - switch back to BeautifulSoup
-
-- Show Inspect of Spotlight to locate tags
-
-- Create BeautifulSoup object, then
-
-- To get film title:
-```python
-title = soup.find(class_='film').find(class_='film-title').get_text()
-print(title)
-```
-
-:::::::::::::::::::::::::::::::::::::::
 
 While we could continue using Selenium’s `.find_element()` and `.find_elements()` methods to extract the data, we'll switch back to BeautifulSoup to parse the HTML and locate elements, since we already have practice with it.
 For example, if we search for the first element with the class attribute "film" and retrieve its text, we’ll see that the HTML now includes the movie “Spotlight.”
@@ -238,21 +161,6 @@ print(soup.find(class_='film').prettify())
  </td>
 </tr>
 ```
-
-:::::::::::::::::::::::::::::::::: instructor
-
-- Headless mode - browser runs in background without opening window
-- Need to set up option for headless mode
-
-- Open webpage
-- Click to load 2015 data
-
-- Use a loop to extract the 2015 film titles
-
-- This is probably the limit for a three hour session
-    - May need to jump to the scraping pipeline section to round up session
-
-:::::::::::::::::::::::::::::::::::::::::::::
 
 The following code repeats the process of clicking and loading the 2015 data, but now in "headless" mode (meaning the browser runs in the background without opening a visible window).
 It then uses a loop to extract all of the 2015 film titles.
@@ -285,19 +193,6 @@ print(titles)
 ```output
 ['Spotlight  ', 'Mad Max: Fury Road ', 'The Revenant   ', 'Bridge of Spies', 'The Big Short  ', 'The Danish Girl', 'Room   ', 'Ex Machina ', 'The Hateful Eight  ', 'Inside Out ', 'Amy', 'Bear Story ', 'A Girl in the River: The Price of Forgiveness  ', 'Son of Saul', 'Spectre', 'Stutterer  ']
 ```
-
-:::::::::::::::::::::::::::::::::: instructor
-
-- Extend the program to add extra information
-- Extract information from table one column at a time
-    - Each column has unique class attribute
-
-- Use list comprehensions to extract data
-- For best picture need to check if element is there
-
-- Add to dataframe
-
-:::::::::::::::::::::::::::::::::::::::::::::
 
 This code can be extended so that, after the data loads, the code extracts information from the table one column at a time, using the fact that each column has a unique class attribute.
 
@@ -520,12 +415,6 @@ all_products_v2 = pd.DataFrame(
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## The scraping pipeline
-
-:::::::::::::::::::::::::::::::: instructor
-
-**Slide** to show pipeline steps
-
-:::::::::::::::::::::::::::::::::::::::::::
 
 By now, you've learned the core tools for web scraping: requests, BeautifulSoup, and Selenium.
 Together, these tools form a powerful and flexible pipeline that can handle most scraping tasks.

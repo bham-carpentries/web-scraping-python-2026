@@ -21,25 +21,6 @@ exercises: 10
 
 ## Introduction
 
-::::::::::::::::::::::::::::::::::::::::::: instructor
-
-- Timing for this section includes setup time to allow for Python installation etc
-
-**Slide** Reminder of what web scraping is
-
-**Slide** Remember - may be APIs or tools to download data
-
-**Slide** Overview of html - ask what people think it will do
-- html - uses tags to organise and format content.
-- Show in browser
-- Show source code for page
-
-**Slide** - showing structure
-- structured doc, **elements** marked by **tags**
-- attributes - modify behaviour, appearance or functionality
-**Slide** list of tags - also in notes
-::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
 This workshop is a continuation of our Introduction to Web Scraping workshop.
 If you're looking for a gentler introduction that uses the Web Scraper Chrome extension, take a look at the [workshop materials for that workshop](https://bham-carpentries.github.io/bham-introduction-to-webscraping/).
 
@@ -134,18 +115,6 @@ As a first step, we’ll load the `BeautifulSoup` package along with Pandas.
 from bs4 import BeautifulSoup
 import pandas as pd
 ```
-::::::::::::::::::::::::::::::::::: instructor
-
-Jupyter Lab: 
-
-Right click on cell -> Open Variable Inspector (Jupyter Lab, not Notebook)
-
-Shift+Enter - run cell
-
-NB - can copy html text from web source code
-
-:::::::::::::::::::::::::::::::::::::::::::::
-
 Let’s store the HTML content in a string variable named `example_html`.
 
 ```python
@@ -175,14 +144,6 @@ and another to the
 We parse the HTML by passing it to the `BeautifulSoup()` function, specifying `html.parser` as the parser.
 This creates an object that represents the document as a nested data structure —similar to the tree structure we discussed earlier.
 Using the `.prettify()` method on this object displays the HTML with indentation that reflects its nested structure, making it easier to read.
-
-::::::::::::::::::::::::::::::::: instructor
-
-- Parse html using BeautifulSoup
-- Creates object with nested structure
-- Show without prettify first
-
-::::::::::::::::::::::::::::::::::::::::::::
 
 ```python
 soup = BeautifulSoup(example_html, 'html.parser')
@@ -244,10 +205,6 @@ Now that our `soup` variable holds the parsed document, we can use the `.find()`
 
 Below, you’ll see examples of how these commands work with our simple website.
 
-::::::::::::::::::::::::::::::::: instructor
-For demonstration, leave out numbers and execute one at a time
-::::::::::::::::::::::::::::::::::::::::::::
-
 ```python
 print("1.", soup.find('title'))
 print("2.", soup.find('title').get_text())
@@ -293,14 +250,6 @@ Number of hyperlinks found:  2
 [<a href="https://carpentries.org/">The Carpentries homepage</a>, <a href="https://carpentries.org/workshops/past-workshops/">past workshops</a>]
 
 ```
-
-:::::::::::::::::::::::::::::::::::::::::::::: instructor
-
-- use .get() to access attribute value
-- attribute name as parameter
-- .get('href')
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 To access the value of a given attribute in an element, for example the value of the `href` attribute in `<a href="">`, we would use the `.get()` method with the name of the attribute (i.e. `.get('href')`).
 Let's make a loop that prints only the URL for each hyperlink we have in our example.
@@ -354,25 +303,6 @@ first_link['text'] = find_a.get_text()
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::::::: instructor
-Alternative if use links list created in previous section:
-```python
-first_link = {"element":str(links[0]),
-              "url":links[0].get('href'),
-              "text":links[0].get_text()}
-```
-
-NB. Need str on the element otherwise get the BeautifulSoup object not the actual string. Looks ok at this stage but doesn't load into data frame correctly if not a string.
-::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::: instructor
-- Wrap up BeautifulSoup intro
-- Code to:
-    - Extract all hyperlink elements in structured way
-    - tag, url & display text
-- Use **links** list already created
-::::::::::::::::::::::::::::::::::::::::::::::::::::
-
 To wrap up this introduction to HTML and BeautifulSoup, let’s write code that extracts all hyperlink elements in a structured way —capturing each link's tag, destination URL, and display text.
 
 We’ll start with the links variable we created earlier: `links = soup.find_all('a')`.
@@ -399,25 +329,12 @@ print(links_df)
 1  <a href="https://carpentries.org/workshops/pas...  https://carpentries.org/workshops/past-workshops/            past workshops
 ```
 
-:::::::::::::::::::::::::::: instructor
-- Create DataFrame column titles:
-    - links_df = pd.DataFrame(link_info_list, columns = ['element', 'url','text'])
-
-- index - Write row names, default True 
-:::::::::::::::::::::::::::::::::::::::
-
 The dataframe can also be exported as, for example, a .csv file
 
 ```python
 links_df.to_csv('OutputCSV.csv', index=False)
 ```
 You can find more detailed information about the BeautifulSoup package and its full range of methods in the [BeautifulSoup Documentation](https://beautiful-soup-4.readthedocs.io/en/latest/).
-
-:::::::::::::::::::::::::::::::::::: instructor
-- Much more functionality than shown here
-- Can traverse the tree e.g. parent and sibling functions
-- Also useful for extracting information from any html document e.g. OCR output
-:::::::::::::::::::::::::::::::::::::::::::::::
 
 ## The rights, wrongs, and legal barriers to scraping 
 
