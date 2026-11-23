@@ -43,6 +43,7 @@ Now that we’re moving into a more realistic and complex scenario, we’ll add 
 - [tqdm](https://tqdm.github.io/) is a Progress Bar library
 - regex: \\s\* means 0 or more spaces
 
+
 :::::::::::::::::::::::::::::::::::::::::::::
 
 For this lesson, we’ll use `requests` solely to retrieve the HTML content of a website.
